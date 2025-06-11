@@ -50,16 +50,11 @@ export default function Hero() {
                 ))}
             </h1>
 
-            <TextShimmer
-              as="p"
-              className="block w-full text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium
-                bg-gradient-to-r from-gray-400 via-white to-gray-400
-                dark:from-gray-600 dark:via-white dark:to-gray-600
-                bg-clip-text text-transparent"
-              duration={2}
+            <p
+              className="text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-700/80 dark:from-white dark:to-white/80"
             >
               {subtitle}
-            </TextShimmer>
+            </p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
