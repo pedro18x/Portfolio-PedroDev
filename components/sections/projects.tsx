@@ -20,7 +20,15 @@ const Projects = () => {
   );
 };
 
-const ProjectCard = ({ title, description, tags, imageUrl, githubUrl }) => {
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  tags: string[];
+  imageUrl: string;
+  githubUrl: string;
+}
+
+const ProjectCard = ({ title, description, tags, imageUrl, githubUrl }: ProjectCardProps) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
