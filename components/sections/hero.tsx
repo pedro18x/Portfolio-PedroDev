@@ -1,12 +1,10 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion";
-import { useMemo, useRef } from "react";
-import * as THREE from "three";
+import { Particles } from "@/components/ui/particles";
 
-const Hero = () => {
+export default function Hero() {
   return (
     <section
       id="home"
@@ -32,36 +30,4 @@ const Hero = () => {
       </motion.div>
     </section>
   );
-};
-
-function Particles() {
-  const ref = useRef<THREE.Points>(null!);
-
-  const [positions] = useMemo(() => {
-    const count = 1500;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < positions.length; i++) {
-      positions[i] = (Math.random() - 0.5) * 10;
-    }
-    return [positions];
-  }, []);
-
-  useFrame((state, delta) => {
-    ref.current.rotation.x += delta / 15;
-    ref.current.rotation.y += delta / 20;
-  });
-
-  return (
-    <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
-      <PointMaterial
-        transparent
-        color="#ffffff"
-        size={0.015}
-        sizeAttenuation={true}
-        depthWrite={false}
-      />
-    </Points>
-  );
-}
-
-export default Hero; 
+} 

@@ -5,7 +5,7 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const ThemeToggle = () => {
+export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -32,6 +32,4 @@ const ThemeToggle = () => {
       {theme === "dark" ? <FiSun /> : <FiMoon />}
     </motion.button>
   );
-};
-
-export default ThemeToggle; 
+}; 

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
-const About = () => {
+export default function About() {
   return (
     <section id="about" className="w-full py-24 bg-light dark:bg-dark">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-12 px-4">
@@ -45,6 +45,4 @@ const About = () => {
       </div>
     </section>
   );
-};
-
-export default About; 
+}; 

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 
-const Contact = () => {
+export default function Contact() {
   return (
     <section id="contact" className="w-full py-24 bg-light dark:bg-dark">
       <div className="container mx-auto px-4 text-center">
@@ -38,6 +38,4 @@ const Contact = () => {
       </div>
     </section>
   );
-};
-
-export default Contact; 
+}; 
