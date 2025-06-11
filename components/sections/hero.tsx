@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 
 export default function Hero() {
   const title = "Pedro Ernesto";
   const words = title.split(" ");
-  const subtitle = "Desenvolvedor Full Stack apaixonado por criar aplicações web modernas, eficientes e visualmente atraentes.";
+  const subtitle = "Desenvolvedor Full Stack ";
   const buttonText = "Ver Projetos";
   const buttonLink = "#projects";
 
@@ -49,14 +50,16 @@ export default function Hero() {
                 ))}
             </h1>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 1 }}
-              className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto mb-10"
+            <TextShimmer
+              as="p"
+              className="block w-full text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium
+                bg-gradient-to-r from-gray-400 via-white to-gray-400
+                dark:from-gray-600 dark:via-white dark:to-gray-600
+                bg-clip-text text-transparent"
+              duration={2}
             >
               {subtitle}
-            </motion.p>
+            </TextShimmer>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

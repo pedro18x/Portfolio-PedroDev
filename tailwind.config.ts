@@ -19,6 +19,19 @@ const config: Config = {
       },
       animation: {
         "spin-slow": "spin 8s linear infinite",
+        shine: "shine 3s ease-in-out infinite alternate",
+        'wave-shine': 'wave-shine 2.5s linear infinite',
+      },
+      keyframes: {
+        shine: {
+          '0%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0% 50%' },
+        },
+        'wave-shine': {
+          '0%':   { 'background-position': '-200% 0%' },
+          '100%': { 'background-position': '200% 0%' },
+        },
       },
       backgroundImage: {
         circularLight:
