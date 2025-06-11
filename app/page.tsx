@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FloatingPaths } from "@/components/ui/background-paths";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,6 +37,11 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-light dark:bg-dark text-foreground relative">
+      <div className="fixed top-0 left-0 w-full h-full z-0">
+        <FloatingPaths position={1} />
+        <FloatingPaths position={-1} />
+      </div>
+
       {/* Enhanced header with shadow on scroll */}
       <div
         className={cn(
@@ -49,22 +55,11 @@ export default function Home() {
       </div>
 
       {/* Main content with improved spacing */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <section className="py-16 md:py-24">
-          <Hero />
-        </section>
-
-        <section className="py-16 md:py-24" id="about">
-          <About />
-        </section>
-
-        <section className="py-16 md:py-24" id="projects">
-          <Projects />
-        </section>
-
-        <section className="py-16 md:py-24" id="contact">
-          <Contact />
-        </section>
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        <Hero />
+        <About />
+        <Projects />
+        <Contact />
       </div>
 
       {/* Scroll to top button */}
@@ -89,7 +84,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Footer with subtle gradient */}
-      <footer className="w-full py-6 border-t">
+      <footer className="w-full py-6 border-t z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
           <p>© {new Date().getFullYear()} - Built with Next.js and Tailwind CSS</p>
         </div>
