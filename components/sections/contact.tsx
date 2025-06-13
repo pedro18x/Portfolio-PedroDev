@@ -3,6 +3,11 @@
 import { motion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 
+/**
+ * A seção "Contato", que exibe ícones e links para as formas de contato do usuário.
+ *
+ * @returns {JSX.Element} A seção "Contato" renderizada.
+ */
 export default function Contact() {
   return (
     <section id="contact" className="w-full py-24">

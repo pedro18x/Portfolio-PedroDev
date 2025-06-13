@@ -11,6 +11,18 @@ interface TextShimmerProps {
   spread?: number;
 }
 
+/**
+ * Um componente que aplica um efeito de brilho animado a um texto.
+ * Ótimo para chamar a atenção para textos importantes ou títulos.
+ *
+ * @param {TextShimmerProps} props - As propriedades do componente.
+ * @param {string} props.children - O texto a ser renderizado.
+ * @param {React.ElementType} [props.as='p'] - O elemento HTML a ser usado para o texto (ex: 'h1', 'p').
+ * @param {string} [props.className] - Classes CSS adicionais para o componente.
+ * @param {number} [props.duration=2] - A duração da animação de brilho em segundos.
+ * @param {number} [props.spread=2] - A largura do efeito de brilho em relação ao texto.
+ * @returns {JSX.Element} O componente de texto com efeito de brilho.
+ */
 export function TextShimmer({
   children,
   as: Component = 'p',

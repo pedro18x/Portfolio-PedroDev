@@ -4,10 +4,18 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 
+const words = ["Olá,", "eu", "sou", "Pedro", "Ernesto."];
+const subtitle =
+  "Desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes que resolvem problemas do mundo real.";
+
+/**
+ * A seção Hero, a primeira coisa que os visitantes veem.
+ * Apresenta uma saudação com animação, um subtítulo e um botão de call-to-action.
+ *
+ * @returns {JSX.Element} A seção Hero renderizada.
+ */
 export default function Hero() {
   const title = "Pedro Ernesto";
-  const words = title.split(" ");
-  const subtitle = "Desenvolvedor Full Stack ";
   const buttonText = "Ver Projetos";
   const buttonLink = "#projects";
 

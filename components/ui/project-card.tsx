@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
 
 interface ProjectCardProps {
   title: string;
@@ -12,6 +13,17 @@ interface ProjectCardProps {
   githubUrl: string;
 }
 
+/**
+ * Um card para exibir informações de um projeto, incluindo título, descrição, tecnologias e links.
+ *
+ * @param {ProjectCardProps} props - As propriedades do card de projeto.
+ * @param {string} props.title - O título do projeto.
+ * @param {string} props.description - A descrição do projeto.
+ * @param {string[]} props.tags - Uma lista de tecnologias usadas no projeto.
+ * @param {string} props.imageUrl - A URL da imagem de demonstração do projeto.
+ * @param {string} props.githubUrl - A URL para o repositório do projeto no GitHub.
+ * @returns {JSX.Element} O componente de card de projeto renderizado.
+ */
 export function ProjectCard({ title, description, tags, imageUrl, githubUrl }: ProjectCardProps) {
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },

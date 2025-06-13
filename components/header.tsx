@@ -4,6 +4,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import ThemeToggle from "@/components/theme-toggle";
 
+/**
+ * O cabeçalho principal do site, contendo a navegação e o seletor de tema.
+ * É fixo no topo da página e tem um efeito de desfoque ao rolar.
+ *
+ * @returns {JSX.Element} O componente de cabeçalho renderizado.
+ */
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-light/80 dark:bg-dark/80 backdrop-blur-sm">

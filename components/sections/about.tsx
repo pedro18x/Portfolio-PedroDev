@@ -4,6 +4,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+/**
+ * A seção "Sobre", que exibe uma foto, uma breve biografia e links para redes sociais.
+ *
+ * @returns {JSX.Element} A seção "Sobre" renderizada.
+ */
 export default function About() {
   return (
     <section id="about" className="w-full py-24">

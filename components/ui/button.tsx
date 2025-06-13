@@ -39,6 +39,18 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+/**
+ * Um componente de botão reutilizável com variantes de estilo e tamanho.
+ * Suporta todas as props de um botão HTML padrão.
+ *
+ * @param {ButtonProps} props - As propriedades do componente.
+ * @param {string} [props.className] - Classes CSS adicionais para o botão.
+ * @param {string} [props.variant="default"] - A variante de estilo do botão.
+ * @param {string} [props.size="default"] - O tamanho do botão.
+ * @param {boolean} [props.asChild=false] - Se verdadeiro, renderiza o componente como um filho direto, passando as props.
+ * @param {React.Ref<HTMLButtonElement>} ref - A referência para o elemento do botão.
+ * @returns {JSX.Element} O componente de botão renderizado.
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({ className, variant, size, asChild = false, ...props }, ref) {
     const Comp = asChild ? Slot : "button"
