@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 
-const words = ["Olá,", "eu", "sou", "Pedro", "Ernesto."];
+const titleText = "Olá, eu sou Pedro Ernesto.";
 const subtitle =
   "Desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes que resolvem problemas do mundo real.";
 
@@ -15,7 +15,6 @@ const subtitle =
  * @returns {JSX.Element} A seção Hero renderizada.
  */
 export default function Hero() {
-  const title = "Pedro Ernesto";
   const buttonText = "Ver Projetos";
   const buttonLink = "#projects";
 
@@ -28,33 +27,24 @@ export default function Hero() {
             transition={{ duration: 2 }}
             className="max-w-4xl mx-auto"
         >
-            <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8 tracking-tighter">
-                {words.map((word, wordIndex) => (
-                    <span
-                        key={wordIndex}
-                        className="inline-block mr-4 last:mr-0"
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tighter whitespace-nowrap">
+                {titleText.split("").map((letter, index) => (
+                    <motion.span
+                        key={index}
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{
+                            delay: index * 0.03,
+                            type: "spring",
+                            stiffness: 150,
+                            damping: 25,
+                        }}
+                        className="inline-block text-transparent bg-clip-text 
+                        bg-gradient-to-r from-neutral-900 to-neutral-700/80 
+                        dark:from-white dark:to-white/80"
                     >
-                        {word.split("").map((letter, letterIndex) => (
-                            <motion.span
-                                key={`${wordIndex}-${letterIndex}`}
-                                initial={{ y: 100, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{
-                                    delay:
-                                        wordIndex * 0.1 +
-                                        letterIndex * 0.03,
-                                    type: "spring",
-                                    stiffness: 150,
-                                    damping: 25,
-                                }}
-                                className="inline-block text-transparent bg-clip-text 
-                                bg-gradient-to-r from-neutral-900 to-neutral-700/80 
-                                dark:from-white dark:to-white/80"
-                            >
-                                {letter}
-                            </motion.span>
-                        ))}
-                    </span>
+                        {letter === " " ? "\u00A0" : letter}
+                    </motion.span>
                 ))}
             </h1>
 

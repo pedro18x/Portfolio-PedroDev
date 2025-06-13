@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
 
 /**
  * A seção "Contato", que exibe ícones e links para as formas de contato do usuário.
@@ -24,21 +25,29 @@ export default function Contact() {
             <input
               type="text"
               placeholder="Seu Nome"
-              className="p-4 rounded-lg bg-gray-300/30 dark:bg-gray-700/30 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              className="p-4 rounded-lg bg-white/60 dark:bg-black/40 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
             />
             <input
               type="email"
               placeholder="Seu E-mail"
-              className="p-4 rounded-lg bg-gray-300/30 dark:bg-gray-700/30 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              className="p-4 rounded-lg bg-white/60 dark:bg-black/40 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
             />
             <textarea
               placeholder="Sua Mensagem"
               rows={5}
-              className="p-4 rounded-lg bg-gray-300/30 dark:bg-gray-700/30 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              className="p-4 rounded-lg bg-white/60 dark:bg-black/40 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
             ></textarea>
-            <button type="submit" className="px-6 py-3 bg-primary/80 text-white rounded-lg hover:bg-primary/90 dark:bg-primaryDark/80 dark:text-dark dark:hover:bg-primaryDark/90 transition-colors">
+            <Button
+              type="submit"
+              variant="ghost"
+              className="rounded-xl px-6 py-3 text-base font-semibold
+              bg-white/80 hover:bg-white dark:bg-black/80 dark:hover:bg-black
+              text-black dark:text-white transition-all duration-300
+              hover:-translate-y-0.5 border border-black/10 dark:border-white/20
+              hover:shadow-lg dark:hover:shadow-neutral-800/50 backdrop-blur-sm w-full mt-4"
+            >
               Enviar Mensagem
-            </button>
+            </Button>
           </form>
           <div className="flex justify-center gap-8 mt-8 text-4xl">
             <a href="mailto:pedroernestovogado@gmail.com" className="hover:text-primary dark:hover:text-primaryDark">

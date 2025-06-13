@@ -5,6 +5,7 @@ import About from "@/components/sections/about";
 import Contact from "@/components/sections/contact";
 import Hero from "@/components/sections/hero";
 import Projects from "@/components/sections/projects";
+import Stacks from "@/components/sections/stacks";
 import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -58,6 +59,7 @@ export default function Home() {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <Hero />
         <About />
+        <Stacks />
         <Projects />
         <Contact />
       </div>

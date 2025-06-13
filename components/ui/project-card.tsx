@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
+import { Button } from "./button";
 
 interface ProjectCardProps {
   title: string;
@@ -37,22 +38,44 @@ export function ProjectCard({ title, description, tags, imageUrl, githubUrl }: P
       whileInView="visible"
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="bg-light/80 dark:bg-dark/80 backdrop-blur-md rounded-2xl border border-black/10 dark:border-white/20 shadow-lg overflow-hidden"
+      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+      className="bg-card/30 dark:bg-card/50 backdrop-blur-md rounded-2xl border border-black/10 dark:border-white/20 shadow-lg overflow-hidden group h-full flex flex-col"
     >
-      <Image src={imageUrl} alt={title} width={500} height={300} className="w-full h-48 object-cover" />
-      <div className="p-6">
-        <h3 className="text-2xl font-bold mb-2">{title}</h3>
-        <p className="text-gray-700 dark:text-gray-300 mb-4">{description}</p>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag, index) => (
-            <span key={index} className="px-2 py-1 bg-gray-200/80 dark:bg-gray-700/80 text-sm rounded-full">
-              {tag}
-            </span>
-          ))}
+      <div className="overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt={title}
+          width={500}
+          height={300}
+          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <div className="p-6 flex flex-col flex-grow">
+        <div>
+          <h3 className="text-2xl font-bold mb-2">{title}</h3>
+          <p className="text-muted-foreground mb-4">{description}</p>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {tags.map((tag, index) => (
+              <span key={index} className="px-3 py-1 bg-secondary/80 text-sm rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
-        <Link href={githubUrl} target="_blank" className="inline-block px-6 py-2 bg-primary/80 text-white rounded-lg hover:bg-primary/90 dark:bg-primaryDark/80 dark:text-dark dark:hover:bg-primaryDark/90 transition-colors">
-            Ver no GitHub
-        </Link>
+        <div className="flex-grow" />
+        <Button
+          asChild
+          variant="ghost"
+          className="rounded-xl px-6 py-3 text-base font-semibold
+          bg-white/80 hover:bg-white dark:bg-black/80 dark:hover:bg-black
+          text-black dark:text-white transition-all duration-300
+          group-hover:-translate-y-0.5 border border-black/10 dark:border-white/20
+          hover:shadow-lg dark:hover:shadow-neutral-800/50 backdrop-blur-sm w-full mt-4"
+        >
+          <Link href={githubUrl} target="_blank">
+            <FaGithub className="mr-2 h-4 w-4" /> Ver no GitHub
+          </Link>
+        </Button>
       </div>
     </motion.div>
   );
