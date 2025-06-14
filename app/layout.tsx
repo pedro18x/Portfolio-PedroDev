@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 /**
  * Layout raiz da aplicação.
  * Envolve todo o conteúdo com os provedores de contexto necessários e define a estrutura HTML base.
- * @param {object} props - As propriedades do componente.
+ * @param {object} props - As propriedades do componentes. 
  * @param {React.ReactNode} props.children - As páginas e outros layouts a serem renderizados.
  */
 export default function RootLayout({

@@ -15,6 +15,8 @@ interface ProjectCardProps {
   githubUrl: string;
 }
 
+// Easter egg :D
+
 /**
  * Um card 3D interativo para exibir informações de um projeto.
  * Utiliza o componente `CardContainer` para criar um efeito de perspectiva ao passar o mouse.
