@@ -11,7 +11,10 @@ const url = "https://portfolio-pedro18x.vercel.app/"; // Substitua pela URL fina
 const imageUrl = "https://github.com/pedro18x.png";
 
 export const metadata: Metadata = {
-  title,
+  title: {
+    template: '%s | Pedro Ernesto',
+    default: 'Pedro Ernesto | Desenvolvedor Full Stack',
+  },
   description,
   openGraph: {
     title,

@@ -156,7 +156,7 @@ const Stacks: React.FC<StacksProps> = ({
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-bold mb-4">{title || t('stacks.title')}</h2>
-          <p className="text-lg text-primary/80 dark:text-primaryDark/80 max-w-2xl mx-auto">
+          <p className="text-lg text-primary dark:text-primaryDark max-w-2xl mx-auto">
             {subtitle || t('stacks.subtitle')}
           </p>
         </motion.div>
