@@ -187,14 +187,6 @@ const Stacks: React.FC<StacksProps> = ({
                       {tech.name}
                     </h3>
                   </div>
-
-                  <div className="flex flex-col gap-2 w-full pt-2">
-                    <Badge 
-                      className="bg-primary/10 text-primary dark:bg-black/10 dark:text-white/70 border-none"
-                    >
-                      {tech.level}
-                    </Badge>
-                  </div>
                 </div>
               </Card>
             </motion.div>
