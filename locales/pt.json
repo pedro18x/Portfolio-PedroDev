@@ -23,10 +23,9 @@
   "contact": {
     "title": "Entre em Contato",
     "namePlaceholder": "Seu Nome",
-    "emailPlaceholder": "Seu E-mail",
+    "emailPlaceholder": "Seu Email",
     "messagePlaceholder": "Sua Mensagem",
-    "submitButton": "Enviar Mensagem",
-    "submitButtonLoading": "Enviando..."
+    "submitButton": "Enviar Mensagem"
   },
   "projects": {
     "title": "Meus Projetos"

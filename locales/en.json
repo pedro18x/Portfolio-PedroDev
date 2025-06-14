@@ -23,10 +23,9 @@
   "contact": {
     "title": "Get in Touch",
     "namePlaceholder": "Your Name",
-    "emailPlaceholder": "Your E-mail",
+    "emailPlaceholder": "Your Email",
     "messagePlaceholder": "Your Message",
-    "submitButton": "Send Message",
-    "submitButtonLoading": "Sending..."
+    "submitButton": "Send Message"
   },
   "projects": {
     "title": "My Projects"
