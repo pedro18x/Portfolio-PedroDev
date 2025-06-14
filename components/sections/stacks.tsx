@@ -1,153 +1,58 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Code2, 
-  FileCode, 
-  Globe, 
-  Palette, 
-  Atom, 
-  Server, 
-  Zap, 
-  Database, 
-  GitBranch, 
-  BookOpen 
-} from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { technologies } from '@/lib/data';
 
-// --- Componentes de UI (simulados para manter o estilo) ---
+/**
+ * Variantes de animação para o contêiner dos cards.
+ * Define uma transição escalonada ('stagger') para os filhos.
+ */
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05
+    }
+  }
+};
 
-const Badge = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { variant?: string }) => (
-  <div
-    className={("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 " + className).replace(' border ', ' ')}
-    {...props}
-  />
-);
+/**
+ * Variantes de animação para cada card individual.
+ * Define uma animação de fade-in e slide-up.
+ */
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4
+    }
+  }
+};
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={("flex flex-col rounded-lg border bg-card text-card-foreground shadow-sm " + className)}
-      {...props}
-    />
-  ),
-);
-Card.displayName = "Card";
-
-
-interface Technology {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
-}
-
-interface StacksProps {
-  title?: string;
-  subtitle?: string;
-}
-
-const Stacks: React.FC<StacksProps> = ({
-  title,
-  subtitle
-}) => {
+/**
+ * Seção que exibe uma grade de tecnologias e ferramentas.
+ * Cada tecnologia é mostrada em um card com um ícone e nome.
+ * A seção e os cards são animados na entrada.
+ *
+ * @returns {JSX.Element} A seção de stacks renderizada.
+ */
+const Stacks: React.FC = () => {
   const { t } = useLanguage();
-  const technologies: Technology[] = [
-    {
-      id: 'javascript',
-      name: 'JavaScript',
-      icon: <Code2 className="w-8 h-8" />,
-      level: 'Advanced',
-    },
-    {
-      id: 'typescript',
-      name: 'TypeScript',
-      icon: <FileCode className="w-8 h-8" />,
-      level: 'Advanced',
-    },
-    {
-      id: 'html',
-      name: 'HTML',
-      icon: <Globe className="w-8 h-8" />,
-      level: 'Expert',
-    },
-    {
-      id: 'css',
-      name: 'CSS',
-      icon: <Palette className="w-8 h-8" />,
-      level: 'Advanced',
-    },
-    {
-      id: 'react',
-      name: 'React',
-      icon: <Atom className="w-8 h-8" />,
-      level: 'Advanced',
-    },
-    {
-      id: 'nodejs',
-      name: 'Node.js',
-      icon: <Server className="w-8 h-8" />,
-      level: 'Advanced',
-    },
-    {
-      id: 'nextjs',
-      name: 'Next.js',
-      icon: <Zap className="w-8 h-8" />,
-      level: 'Intermediate',
-    },
-    {
-      id: 'expressjs',
-      name: 'Express.js',
-      icon: <Server className="w-8 h-8" />,
-      level: 'Intermediate',
-    },
-    {
-      id: 'postgresql',
-      name: 'PostgreSQL',
-      icon: <Database className="w-8 h-8" />,
-      level: 'Intermediate',
-    },
-    {
-      id: 'git',
-      name: 'Git/GitHub',
-      icon: <GitBranch className="w-8 h-8" />,
-      level: 'Advanced',
-    },
-    {
-      id: 'notion',
-      name: 'Notion',
-      icon: <BookOpen className="w-8 h-8" />,
-      level: 'Advanced',
-    }
-  ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4
-      }
-    }
+  const content = {
+    title: t('stacks.title'),
+    subtitle: t('stacks.subtitle'),
   };
 
   return (
     <section id="stacks" className="py-24 px-4 bg-transparent">
       <div className="max-w-7xl mx-auto">
+        {/* Título e subtítulo da seção */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -155,12 +60,13 @@ const Stacks: React.FC<StacksProps> = ({
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">{title || t('stacks.title')}</h2>
+          <h2 className="text-4xl font-bold mb-4">{content.title}</h2>
           <p className="text-lg text-primary dark:text-primaryDark max-w-2xl mx-auto">
-            {subtitle || t('stacks.subtitle')}
+            {content.subtitle}
           </p>
         </motion.div>
 
+        {/* Grade de tecnologias */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -174,7 +80,8 @@ const Stacks: React.FC<StacksProps> = ({
               variants={itemVariants}
               className="h-full"
             >
-              <Card className="p-6 h-full bg-cardLight dark:bg-card/50 border-borderLight dark:border-border backdrop-blur-sm hover:border-primary/50 dark:hover:border-primary/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer group">
+              {/* Card da Tecnologia */}
+              <div className="flex flex-col rounded-lg border bg-card text-card-foreground shadow-sm p-6 h-full bg-cardLight dark:bg-card/50 border-borderLight dark:border-border backdrop-blur-sm hover:border-primary/50 dark:hover:border-primary/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer group">
                 <div className="flex flex-col items-center justify-center text-center space-y-4 h-full">
                   <motion.div
                     className="text-primary dark:text-primaryDark"
@@ -190,7 +97,7 @@ const Stacks: React.FC<StacksProps> = ({
                     </h3>
                   </div>
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </motion.div>

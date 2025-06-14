@@ -28,31 +28,20 @@
     "submitButton": "Send Message"
   },
   "projects": {
-    "title": "My Projects"
-  },
-  "projectData": [
-    {
+    "title": "My Projects",
+    "bancoNext": {
       "title": "BancoNext",
-      "description": "A modern digital banking application with Plaid and Dwolla integration.",
-      "tags": ["Next.js", "Appwrite", "Plaid", "Dwolla", "TypeScript"],
-      "imageUrl": "/banco-next.png",
-      "githubUrl": "https://github.com/pedro18x/banconext"
+      "description": "A modern digital banking application with Plaid and Dwolla integration."
     },
-    {
+    "nlwJs": {
       "title": "NLW-JS InOrbit",
-      "description": "Application for tracking goals, developed during Rocketseat's NLW.",
-      "tags": ["JavaScript", "Node.js", "React", "REST API"],
-      "imageUrl": "/nlw-js.png",
-      "githubUrl": "https://github.com/pedro18x/NLW-JS"
+      "description": "Application for tracking goals, developed during Rocketseat's NLW."
     },
-    {
+    "zingen": {
       "title": "Zingen",
-      "description": "A modern and responsive interface focused on design and usability.",
-      "tags": ["HTML", "CSS"],
-      "imageUrl": "/zingen.png",
-      "githubUrl": "https://github.com/pedro18x/Zingen-RS6-"
+      "description": "A modern and responsive interface focused on design and usability."
     }
-  ],
+  },
   "footer": {
     "text": "Pedro Ernesto. All rights reserved."
   }

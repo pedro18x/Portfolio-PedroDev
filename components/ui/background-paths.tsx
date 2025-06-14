@@ -3,9 +3,20 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-export function FloatingPaths({ position }: { position: number }) {
+/**
+ * Componente que renderiza um conjunto de caminhos SVG animados e flutuantes.
+ * Usado para criar um efeito de fundo dinâmico e abstrato.
+ *
+ * @param {object} props - As propriedades do componente.
+ * @param {number} props.position - Um fator numérico que desloca a posição dos caminhos, permitindo sobreposição.
+ * @returns {JSX.Element} Um elemento SVG com os caminhos animados.
+ */
+export function FloatingPaths({ position }: { position: number }): JSX.Element {
+    // Gera uma matriz de 36 caminhos SVG com propriedades dinâmicas
     const paths = Array.from({ length: 36 }, (_, i) => ({
         id: i,
+        // A fórmula matemática define a curva e a posição de cada caminho.
+        // A prop 'position' ajuda a criar profundidade ao deslocar os caminhos.
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
             380 - i * 5 * position
         } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${
@@ -23,6 +34,7 @@ export function FloatingPaths({ position }: { position: number }) {
                 className="w-full h-full text-slate-950 dark:text-white"
                 viewBox="0 0 696 316"
                 fill="none"
+                aria-hidden="true" // Esconde o SVG de leitores de tela
             >
                 <title>Background Paths</title>
                 {paths.map((path) => (
@@ -32,6 +44,7 @@ export function FloatingPaths({ position }: { position: number }) {
                         stroke="currentColor"
                         strokeWidth={path.width}
                         strokeOpacity={0.1 + path.id * 0.03}
+                        // Anima o comprimento e a opacidade do caminho para criar um efeito de "desenho"
                         initial={{ pathLength: 0.3, opacity: 0.6 }}
                         animate={{
                             pathLength: 1,
@@ -39,8 +52,8 @@ export function FloatingPaths({ position }: { position: number }) {
                             pathOffset: [0, 1, 0],
                         }}
                         transition={{
-                            duration: 20 + Math.random() * 10,
-                            repeat: Number.POSITIVE_INFINITY,
+                            duration: 20 + Math.random() * 10, // Duração aleatória para dessincronizar as animações
+                            repeat: Infinity,
                             ease: "linear",
                         }}
                     />
@@ -50,19 +63,27 @@ export function FloatingPaths({ position }: { position: number }) {
     );
 }
 
-interface BackgroundPathsProps {
+interface BackgroundPathsContainerProps {
     title?: string;
     subtitle?: string;
     buttonText?: string;
     buttonLink?: string;
 }
 
-export function BackgroundPaths({
+/**
+ * Um componente de layout de página inteira que usa FloatingPaths como fundo.
+ * Inclui um título animado, subtítulo e um botão de ação.
+ * Parece ser um componente de apresentação ou uma seção de "Herói".
+ *
+ * @param {BackgroundPathsContainerProps} props - As propriedades do componente.
+ * @returns {JSX.Element} Uma seção de página inteira com fundo e conteúdo animados.
+ */
+export function BackgroundPathsContainer({
     title = "Background Paths",
     subtitle,
     buttonText,
     buttonLink,
-}: BackgroundPathsProps) {
+}: BackgroundPathsContainerProps) {
     const words = title.split(" ");
 
     return (
@@ -80,6 +101,7 @@ export function BackgroundPaths({
                     className="max-w-4xl mx-auto"
                 >
                     <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8 tracking-tighter">
+                        {/* Animação de título, letra por letra */}
                         {words.map((word, wordIndex) => (
                             <span
                                 key={wordIndex}

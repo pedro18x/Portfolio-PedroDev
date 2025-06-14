@@ -2,22 +2,32 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MatrixText } from "../ui/matrix-text";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { MatrixText } from "../ui/matrix-text";
+
+interface HeroProps {
+  onButtonClick: (id: string) => void;
+}
 
 /**
- * A seção Hero, a primeira coisa que os visitantes veem.
- * Apresenta uma saudação com animação, um subtítulo e um botão de call-to-action.
+ * A seção Hero, a primeira vinheta visual do site.
+ * Apresenta uma saudação, um nome com efeito de matriz e um call-to-action.
+ * Utiliza animações para uma entrada gradual e impactante.
  *
+ * @param {HeroProps} props As propriedades do componente.
+ * @param {(id: string) => void} props.onButtonClick Função para rolar até uma seção.
  * @returns {JSX.Element} A seção Hero renderizada.
  */
-export default function Hero() {
+export default function Hero({ onButtonClick }: HeroProps) {
   const { t } = useLanguage();
-  const introText = t('hero.intro');
-  const nameText = t('hero.name');
-  const subtitle = t('hero.subtitle');
-  const buttonText = t('hero.button');
-  const buttonLink = "#projects";
+  
+  const content = {
+    intro: t('hero.intro'),
+    name: t('hero.name'),
+    subtitle: t('hero.subtitle'),
+    buttonText: t('hero.button'),
+    buttonLink: "#projects",
+  };
 
   return (
     <section id="home" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
@@ -29,17 +39,19 @@ export default function Hero() {
             className="max-w-4xl mx-auto"
         >
             <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tighter">
+                {/* Animação de entrada para a saudação */}
                 <motion.div
                     initial={{ y: 100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, type: "spring", stiffness: 150, damping: 25 }}
                     className="mb-4"
                 >
-                    {introText}
+                    {content.intro}
                 </motion.div>
                 <div className="flex items-center justify-center">
+                    {/* Componente de texto com efeito de matriz para o nome */}
                     <MatrixText
-                        text={nameText}
+                        text={content.name}
                         loop={true}
                         loopDelay={3000}
                         initialDelay={1000}
@@ -54,9 +66,10 @@ export default function Hero() {
             <p
               className="text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium"
             >
-              {subtitle}
+              {content.subtitle}
             </p>
 
+            {/* Animação de entrada para o botão */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -70,10 +83,10 @@ export default function Hero() {
                     text-black dark:text-white transition-all duration-300 
                     group-hover:-translate-y-0.5 border border-black/10 dark:border-white/20
                     hover:shadow-xl dark:hover:shadow-neutral-800/50 backdrop-blur-sm"
-                    onClick={() => buttonLink && (window.location.href = buttonLink)}
+                    onClick={() => onButtonClick(content.buttonLink)}
                 >
                     <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                        {buttonText}
+                        {content.buttonText}
                     </span>
                     <span
                         className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 

@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ui/project-card";
 import { Section } from "@/components/ui/section";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { projects as projectData } from "@/lib/data";
 
+/**
+ * Variantes de animação para os cards de projeto.
+ * Define um fade-in e slide-up com um atraso dinâmico.
+ */
 const fadeInAnimationVariants = {
   initial: {
     opacity: 0,
@@ -21,21 +26,27 @@ const fadeInAnimationVariants = {
 };
 
 /**
- * A seção "Projetos", que mapeia os dados de projetos e renderiza um `ProjectCard` para cada um,
- * com animações de entrada.
+ * Seção que exibe os projetos do portfólio.
+ * Mapeia os dados dos projetos, traduz os textos e renderiza um `ProjectCard` animado para cada um.
  *
  * @returns {JSX.Element} A seção "Projetos" renderizada.
  */
 export default function Projects() {
   const { t } = useLanguage();
-  const projectsData = t('projectData') as unknown as any[];
+  
+  // Combina os dados estruturais com os textos traduzidos
+  const translatedProjects = projectData.map(project => ({
+    ...project,
+    title: t(project.titleKey),
+    description: t(project.descriptionKey),
+  }));
 
   return (
     <Section title={t('projects.title')} id="projects">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projectsData.map((project, index) => (
+        {translatedProjects.map((project, index) => (
           <motion.div
-            key={index}
+            key={project.id}
             variants={fadeInAnimationVariants}
             initial="initial"
             whileInView="animate"

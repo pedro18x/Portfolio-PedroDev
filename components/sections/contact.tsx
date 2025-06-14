@@ -9,17 +9,55 @@ import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 
 /**
- * A seção "Contato", que exibe ícones e links para as formas de contato do usuário.
+ * Interface para o estado do formulário de contato.
+ */
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+/**
+ * Interface para o estado de status do envio do formulário.
+ */
+interface FormStatus {
+  type: 'idle' | 'loading' | 'success' | 'error';
+  message: string;
+}
+
+/**
+ * Seção de Contato com um formulário funcional para enviar emails.
+ * Gerencia o estado do formulário, o envio para uma API e exibe feedback ao usuário.
  *
- * @returns {JSX.Element} A seção "Contato" renderizada.
+ * @returns {JSX.Element} A seção de Contato renderizada.
  */
 export default function Contact() {
   const { t } = useLanguage();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState({ type: "", message: "" });
+  
+  // Estado para os dados do formulário
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    message: "",
+  });
+  
+  // Estado para o status do envio (carregando, sucesso, erro)
+  const [status, setStatus] = useState<FormStatus>({ type: "idle", message: "" });
 
+  /**
+   * Manipula a mudança nos campos do formulário.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>} e O evento de mudança.
+   */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  /**
+   * Manipula o envio do formulário.
+   * Envia os dados para a API, gerencia o estado de carregamento e exibe mensagens de sucesso ou erro.
+   * @param {React.FormEvent<HTMLFormElement>} e O evento de envio do formulário.
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus({ type: "loading", message: "Enviando..." });
@@ -28,7 +66,7 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -38,9 +76,8 @@ export default function Contact() {
           type: "success",
           message: "Mensagem enviada com sucesso! Obrigado.",
         });
-        setName("");
-        setEmail("");
-        setMessage("");
+        // Limpa o formulário após o sucesso
+        setFormData({ name: "", email: "", message: "" });
       } else {
         setStatus({
           type: "error",
@@ -58,6 +95,7 @@ export default function Contact() {
   return (
     <Section title={t('contact.title')} id="contact">
       <div className="container mx-auto px-4 text-center">
+        {/* Card do Formulário com animação */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,8 +107,8 @@ export default function Contact() {
             <input
               type="text"
               name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              onChange={handleChange}
               placeholder={t("contact.namePlaceholder")}
               required
               className="p-4 rounded-lg bg-white/60 dark:bg-black/40 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
@@ -78,16 +116,16 @@ export default function Contact() {
             <input
               type="email"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               placeholder={t("contact.emailPlaceholder")}
               required
               className="p-4 rounded-lg bg-white/60 dark:bg-black/40 border border-white/20 dark:border-white/30 shadow-inner shadow-black/10 backdrop-blur-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
             />
             <textarea
               name="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={formData.message}
+              onChange={handleChange}
               placeholder={t("contact.messagePlaceholder")}
               rows={5}
               required
@@ -109,7 +147,8 @@ export default function Contact() {
                 t("contact.submitButton")
               )}
             </Button>
-            {status.message && (
+            {/* Mensagem de status do formulário */}
+            {status.type !== 'idle' && (
               <p
                 className={`mt-4 text-sm ${
                   status.type === "success"
@@ -124,10 +163,12 @@ export default function Contact() {
             )}
           </form>
 
+          {/* Links para redes sociais */}
           <div className="flex justify-center gap-8 mt-8 text-4xl">
             <a
               href="mailto:pedroernestovogado@gmail.com"
               className="hover:text-primary dark:hover:text-primaryDark"
+              aria-label="Enviar um email"
             >
               <FaEnvelope />
             </a>
@@ -136,6 +177,7 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary dark:hover:text-primaryDark"
+              aria-label="Link para o perfil do GitHub"
             >
               <FaGithub />
             </a>
@@ -144,6 +186,7 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary dark:hover:text-primaryDark"
+              aria-label="Link para o perfil do LinkedIn"
             >
               <FaLinkedin />
             </a>

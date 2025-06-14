@@ -10,10 +10,15 @@ const description = "Portfólio de Pedro Ernesto, um desenvolvedor Full Stack ap
 const url = "https://portfolio-pedro18x.vercel.app/"; // Substitua pela URL final do seu projeto
 const imageUrl = "https://github.com/pedro18x.png";
 
+/**
+ * Metadados para SEO e compartilhamento em redes sociais.
+ * A propriedade `title.template` permite que páginas filhas personalizem o título,
+ * inserindo seu próprio valor no lugar de `%s`.
+ */
 export const metadata: Metadata = {
   title: {
     template: '%s | Pedro Ernesto',
-    default: 'Pedro Ernesto | Desenvolvedor Full Stack',
+    default: title,
   },
   description,
   openGraph: {
@@ -40,6 +45,12 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Layout raiz da aplicação.
+ * Envolve todo o conteúdo com os provedores de contexto necessários e define a estrutura HTML base.
+ * @param {object} props - As propriedades do componente.
+ * @param {React.ReactNode} props.children - As páginas e outros layouts a serem renderizados.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,10 +58,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.className} bg-light dark:bg-dark`}>
-        <Providers>
-          {children}
-        </Providers>
+      <body className={`${inter.className}`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

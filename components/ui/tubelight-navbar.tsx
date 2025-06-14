@@ -21,6 +21,16 @@ interface NavBarProps {
   onNavItemClick?: (id: string) => void
 }
 
+/**
+ * Componente de barra de navegação flutuante com um efeito "tubelight".
+ * Fica na parte inferior em telas móveis e no topo em telas maiores.
+ *
+ * @param {NavBarProps} props As propriedades do componente.
+ * @param {NavItem[]} props.items A lista de itens de navegação.
+ * @param {string} [props.className] Classes CSS adicionais para o contêiner.
+ * @param {(id: string) => void} [props.onNavItemClick] Função de callback para rolagem suave em páginas de uma só tela.
+ * @returns {JSX.Element | null} O componente de barra de navegação renderizado ou nulo se não estiver montado.
+ */
 export function NavBar({ items, className, onNavItemClick }: NavBarProps) {
   const { language, toggleLanguage } = useLanguage()
   const { theme } = useTheme()
