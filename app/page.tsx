@@ -6,22 +6,27 @@ import Contact from "@/components/sections/contact";
 import Hero from "@/components/sections/hero";
 import Projects from "@/components/sections/projects";
 import Stacks from "@/components/sections/stacks";
-import Header from "@/components/header";
-import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Briefcase, Home, Layers, Mail, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FloatingPaths } from "@/components/ui/background-paths";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+
+const navItems = [
+  { name: 'Home', url: '#home', icon: Home },
+  { name: 'Sobre', url: '#about', icon: User },
+  { name: 'Stacks', url: '#stacks', icon: Layers },
+  { name: 'Projetos', url: '#projects', icon: Briefcase },
+  { name: 'Contato', url: '#contact', icon: Mail },
+]
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Handle scroll events for header styling and scroll-to-top button
+  // Handle scroll events for scroll-to-top button
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setScrolled(scrollPosition > 50);
       setShowScrollTop(scrollPosition > 500);
     };
 
@@ -38,21 +43,11 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-light dark:bg-dark text-foreground relative">
+      <NavBar items={navItems} />
+
       <div className="fixed top-0 left-0 w-full h-full z-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
-      </div>
-
-      {/* Enhanced header with shadow on scroll */}
-      <div
-        className={cn(
-          "sticky top-0 z-50 w-full transition-all duration-300",
-          scrolled
-            ? "bg-light/80 dark:bg-dark/80 backdrop-blur-md border-b"
-            : "bg-transparent"
-        )}
-      >
-        <Header />
       </div>
 
       {/* Main content with improved spacing */}

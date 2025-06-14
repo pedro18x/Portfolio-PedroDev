@@ -40,6 +40,7 @@ export default function Projects() {
               once: true,
             }}
             custom={index}
+            className="h-full"
           >
             <ProjectCard {...project} />
           </motion.div>

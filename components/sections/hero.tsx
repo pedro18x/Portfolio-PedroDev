@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { TextShimmer } from "@/components/ui/text-shimmer";
 
 const titleText = "Olá, eu sou Pedro Ernesto.";
 const subtitle =
