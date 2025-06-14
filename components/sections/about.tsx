@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 /**
  * A seção "Sobre", que exibe uma foto, uma breve biografia e links para redes sociais.
@@ -10,6 +11,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
  * @returns {JSX.Element} A seção "Sobre" renderizada.
  */
 export default function About() {
+  const { t } = useLanguage();
   return (
     <section id="about" className="w-full py-24">
       <div className="container mx-auto">
@@ -36,9 +38,9 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl font-bold mb-4">Sobre Mim</h2>
+              <h2 className="text-4xl font-bold mb-4">{t('about.title')}</h2>
               <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-                Sou um desenvolvedor Full Stack apaixonado por criar aplicações web modernas e eficientes. Tenho experiência com as tecnologias mais recentes e estou sempre em busca de novos desafios para aprimorar minhas habilidades.
+                {t('about.bio')}
               </p>
               <div className="flex justify-center md:justify-start gap-6 text-4xl">
                 <a href="https://github.com/pedro18x" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-primaryDark">

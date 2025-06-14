@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 
-import { projectsData } from "@/lib/data";
 import { ProjectCard } from "@/components/ui/project-card";
 import { Section } from "@/components/ui/section";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const fadeInAnimationVariants = {
   initial: {
@@ -27,8 +27,11 @@ const fadeInAnimationVariants = {
  * @returns {JSX.Element} A seção "Projetos" renderizada.
  */
 export default function Projects() {
+  const { t } = useLanguage();
+  const projectsData = t('projectData') as unknown as any[];
+
   return (
-    <Section title="Meus Projetos" id="projects">
+    <Section title={t('projects.title')} id="projects">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projectsData.map((project, index) => (
           <motion.div

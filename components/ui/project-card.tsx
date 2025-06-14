@@ -67,7 +67,7 @@ export function ProjectCard({ title, description, tags, imageUrl, githubUrl }: P
         <CardItem translateZ={20} className="w-full mt-4">
             <Button asChild variant="ghost" className="w-full rounded-xl px-6 py-3 text-base font-semibold bg-white/80 hover:bg-white dark:bg-black/80 dark:hover:bg-black text-black dark:text-white transition-all duration-300 hover:-translate-y-0.5 border border-black/10 dark:border-white/20 hover:shadow-lg dark:hover:shadow-neutral-800/50 backdrop-blur-sm">
                 <Link href={githubUrl} target="_blank">
-                    <FaGithub className="mr-2 h-4 w-4" /> Ver no GitHub
+                    <FaGithub className="mr-2 h-4 w-4" /> GitHub
                 </Link>
             </Button>
         </CardItem>

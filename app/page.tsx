@@ -11,16 +11,18 @@ import { ArrowUp, Briefcase, Home as HomeIcon, Layers, Mail, User } from "lucide
 import { Button } from "@/components/ui/button";
 import { FloatingPaths } from "@/components/ui/background-paths";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-
-const navItems = [
-  { name: 'Home', url: '#home', icon: HomeIcon },
-  { name: 'Sobre', url: '#about', icon: User },
-  { name: 'Stacks', url: '#stacks', icon: Layers },
-  { name: 'Projetos', url: '#projects', icon: Briefcase },
-  { name: 'Contato', url: '#contact', icon: Mail },
-]
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
+  const { t } = useLanguage();
+  
+  const navItems = [
+    { name: t('nav.home'), url: '#home', icon: HomeIcon },
+    { name: t('nav.about'), url: '#about', icon: User },
+    { name: t('nav.stacks'), url: '#stacks', icon: Layers },
+    { name: t('nav.projects'), url: '#projects', icon: Briefcase },
+    { name: t('nav.contact'), url: '#contact', icon: Mail },
+  ]
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Handle scroll events for scroll-to-top button
@@ -93,7 +95,7 @@ export default function Home() {
       {/* Footer with subtle gradient */}
       <footer className="w-full py-6 border-t z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-          <p>© {new Date().getFullYear()} - Built with Next.js and Tailwind CSS</p>
+          <p>© {new Date().getFullYear()} - {t('footer.text')}</p>
         </div>
       </footer>
     </main>

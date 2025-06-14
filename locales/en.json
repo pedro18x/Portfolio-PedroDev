@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "stacks": "Stacks",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "intro": "Hello, I am",
+    "name": "Pedro Ernesto",
+    "subtitle": "FullStack Developer",
+    "button": "View Projects"
+  },
+  "about": {
+    "title": "About Me",
+    "bio": "I am a Full Stack developer passionate about creating modern and efficient web applications. I have experience with the latest technologies and I am always looking for new challenges to improve my skills."
+  },
+  "stacks": {
+    "title": "My Stacks",
+    "subtitle": "Technologies and tools that turn ideas into reality."
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "namePlaceholder": "Your Name",
+    "emailPlaceholder": "Your Email",
+    "messagePlaceholder": "Your Message",
+    "submitButton": "Send Message"
+  },
+  "projects": {
+    "title": "My Projects"
+  },
+  "projectData": [
+    {
+      "title": "BancoNext",
+      "description": "A modern digital banking application with Plaid and Dwolla integration.",
+      "tags": ["Next.js", "Appwrite", "Plaid", "Dwolla", "TypeScript"],
+      "imageUrl": "/banco-next.png",
+      "githubUrl": "https://github.com/pedro18x/banconext"
+    },
+    {
+      "title": "NLW-JS InOrbit",
+      "description": "Application for tracking goals, developed during Rocketseat's NLW.",
+      "tags": ["JavaScript", "Node.js", "React", "REST API"],
+      "imageUrl": "/nlw-js.png",
+      "githubUrl": "https://github.com/pedro18x/NLW-JS"
+    },
+    {
+      "title": "Zingen",
+      "description": "A modern and responsive interface focused on design and usability.",
+      "tags": ["HTML", "CSS"],
+      "imageUrl": "/zingen.png",
+      "githubUrl": "https://github.com/pedro18x/Zingen-RS6-"
+    }
+  ],
+  "footer": {
+    "text": "Built with Next.js and Tailwind CSS"
+  }
+} 

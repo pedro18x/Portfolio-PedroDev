@@ -3,11 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MatrixText } from "../ui/matrix-text";
-
-const introText = "Olá, eu sou";
-const nameText = "Pedro Ernesto";
-const subtitle =
-  "Desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes que resolvem problemas do mundo real.";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 /**
  * A seção Hero, a primeira coisa que os visitantes veem.
@@ -16,7 +12,11 @@ const subtitle =
  * @returns {JSX.Element} A seção Hero renderizada.
  */
 export default function Hero() {
-  const buttonText = "Ver Projetos";
+  const { t } = useLanguage();
+  const introText = t('hero.intro');
+  const nameText = t('hero.name');
+  const subtitle = t('hero.subtitle');
+  const buttonText = t('hero.button');
   const buttonLink = "#projects";
 
   return (

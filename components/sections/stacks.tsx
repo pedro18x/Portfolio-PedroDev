@@ -12,6 +12,7 @@ import {
   GitBranch, 
   BookOpen 
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // --- Componentes de UI (simulados para manter o estilo) ---
 
@@ -50,9 +51,10 @@ interface StacksProps {
 }
 
 const Stacks: React.FC<StacksProps> = ({
-  title = "Minhas Stacks",
-  subtitle = "Tecnologias e ferramentas que transformam ideias em realidade."
+  title,
+  subtitle
 }) => {
+  const { t } = useLanguage();
   const technologies: Technology[] = [
     {
       id: 'javascript',
@@ -153,9 +155,9 @@ const Stacks: React.FC<StacksProps> = ({
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">{title}</h2>
+          <h2 className="text-4xl font-bold mb-4">{title || t('stacks.title')}</h2>
           <p className="text-lg text-primary/80 dark:text-primaryDark/80 max-w-2xl mx-auto">
-            {subtitle}
+            {subtitle || t('stacks.subtitle')}
           </p>
         </motion.div>
 
