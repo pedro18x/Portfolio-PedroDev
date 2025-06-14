@@ -7,13 +7,13 @@ import Hero from "@/components/sections/hero";
 import Projects from "@/components/sections/projects";
 import Stacks from "@/components/sections/stacks";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp, Briefcase, Home, Layers, Mail, User } from "lucide-react";
+import { ArrowUp, Briefcase, Home as HomeIcon, Layers, Mail, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FloatingPaths } from "@/components/ui/background-paths";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 
 const navItems = [
-  { name: 'Home', url: '#home', icon: Home },
+  { name: 'Home', url: '#home', icon: HomeIcon },
   { name: 'Sobre', url: '#about', icon: User },
   { name: 'Stacks', url: '#stacks', icon: Layers },
   { name: 'Projetos', url: '#projects', icon: Briefcase },
@@ -41,9 +41,19 @@ export default function Home() {
     });
   };
 
+  const scrollToSection = (id: string) => {
+    const section = document.querySelector(id);
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-light dark:bg-dark text-foreground relative">
-      <NavBar items={navItems} />
+      <NavBar items={navItems} onNavItemClick={scrollToSection} />
 
       <div className="fixed top-0 left-0 w-full h-full z-0">
         <FloatingPaths position={1} />

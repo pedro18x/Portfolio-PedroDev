@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { MatrixText } from "../ui/matrix-text";
 
-const titleText = "Olá, eu sou Pedro Ernesto.";
+const introText = "Olá, eu sou";
+const nameText = "Pedro Ernesto";
 const subtitle =
   "Desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes que resolvem problemas do mundo real.";
 
@@ -26,29 +28,31 @@ export default function Hero() {
             transition={{ duration: 2 }}
             className="max-w-4xl mx-auto"
         >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tighter whitespace-nowrap">
-                {titleText.split("").map((letter, index) => (
-                    <motion.span
-                        key={index}
-                        initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{
-                            delay: index * 0.03,
-                            type: "spring",
-                            stiffness: 150,
-                            damping: 25,
-                        }}
-                        className="inline-block text-transparent bg-clip-text 
-                        bg-gradient-to-r from-neutral-900 to-neutral-700/80 
-                        dark:from-white dark:to-white/80"
-                    >
-                        {letter === " " ? "\u00A0" : letter}
-                    </motion.span>
-                ))}
-            </h1>
+            <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tighter">
+                <motion.div
+                    initial={{ y: 100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, type: "spring", stiffness: 150, damping: 25 }}
+                    className="mb-4"
+                >
+                    {introText}
+                </motion.div>
+                <div className="flex items-center justify-center">
+                    <MatrixText
+                        text={nameText}
+                        loop={true}
+                        loopDelay={3000}
+                        initialDelay={1000}
+                        letterAnimationDuration={300}
+                        letterInterval={50}
+                        className="text-black dark:text-white"
+                    />
+                    <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">.</span>
+                </div>
+            </div>
 
             <p
-              className="text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-700/80 dark:from-white dark:to-white/80"
+              className="text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium"
             >
               {subtitle}
             </p>
