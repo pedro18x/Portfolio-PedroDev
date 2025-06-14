@@ -22,14 +22,22 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleTheme}
-      className="p-2 text-2xl rounded-full bg-gray-200 dark:bg-gray-700"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.8 }}
+      className="relative flex items-center justify-center p-2 rounded-full transition-colors focus:outline-none"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3, delay: 0.5 }}
     >
-      {theme === "dark" ? <FiSun /> : <FiMoon />}
+      <div className="absolute inset-0 bg-background/5 border border-border rounded-full backdrop-blur-sm" />
+
+      <div className="relative text-lg">
+        {theme === "dark" ? (
+          <FiSun />
+        ) : (
+          <FiMoon />
+        )}
+      </div>
     </motion.button>
   );
 }; 

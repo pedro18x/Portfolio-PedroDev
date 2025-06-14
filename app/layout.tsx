@@ -5,9 +5,36 @@ import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const title = "Pedro Ernesto | Desenvolvedor Full Stack";
+const description = "Portfólio de Pedro Ernesto, um desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes.";
+const url = "https://portfolio-pedro18x.vercel.app/"; // Substitua pela URL final do seu projeto
+const imageUrl = "https://github.com/pedro18x.png";
+
 export const metadata: Metadata = {
-  title: "Pedro Ernesto | Desenvolvedor Full Stack",
-  description: "Portfólio de Pedro Ernesto, um desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes.",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url,
+    siteName: "Portfólio Pedro Ernesto",
+    images: [
+      {
+        url: imageUrl,
+        width: 800,
+        height: 800,
+        alt: "Foto de Pedro Ernesto",
+      },
+    ],
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [imageUrl],
+  },
 };
 
 export default function RootLayout({

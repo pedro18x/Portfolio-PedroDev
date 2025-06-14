@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { FloatingPaths } from "@/components/ui/background-paths";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Footer from "@/components/layout/footer";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -92,12 +93,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Footer with subtle gradient */}
-      <footer className="w-full py-6 border-t z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-          <p>© {new Date().getFullYear()} - {t('footer.text')}</p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 } 

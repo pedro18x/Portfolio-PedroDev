@@ -25,7 +25,8 @@
     "namePlaceholder": "Seu Nome",
     "emailPlaceholder": "Seu E-mail",
     "messagePlaceholder": "Sua Mensagem",
-    "submitButton": "Enviar Mensagem"
+    "submitButton": "Enviar Mensagem",
+    "submitButtonLoading": "Enviando..."
   },
   "projects": {
     "title": "Meus Projetos"
@@ -54,6 +55,6 @@
     }
   ],
   "footer": {
-    "text": "Construído com Next.js e Tailwind CSS"
+    "text": "Pedro Ernesto. Todos os direitos reservados."
   }
 } 

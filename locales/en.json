@@ -23,9 +23,10 @@
   "contact": {
     "title": "Get in Touch",
     "namePlaceholder": "Your Name",
-    "emailPlaceholder": "Your Email",
+    "emailPlaceholder": "Your E-mail",
     "messagePlaceholder": "Your Message",
-    "submitButton": "Send Message"
+    "submitButton": "Send Message",
+    "submitButtonLoading": "Sending..."
   },
   "projects": {
     "title": "My Projects"
@@ -54,6 +55,6 @@
     }
   ],
   "footer": {
-    "text": "Built with Next.js and Tailwind CSS"
+    "text": "Pedro Ernesto. All rights reserved."
   }
 } 

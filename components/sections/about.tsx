@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { Download } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 /**
@@ -11,7 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
  * @returns {JSX.Element} A seção "Sobre" renderizada.
  */
 export default function About() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <section id="about" className="w-full py-24">
       <div className="container mx-auto">
@@ -42,12 +43,19 @@ export default function About() {
               <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
                 {t('about.bio')}
               </p>
-              <div className="flex justify-center md:justify-start gap-6 text-4xl">
-                <a href="https://github.com/pedro18x" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-primaryDark">
+              <div className="flex justify-center md:justify-start items-center gap-6 text-4xl">
+                <a href="https://github.com/pedro18x" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-primaryDark transition-colors">
                   <FaGithub />
                 </a>
-                <a href="https://linkedin.com/in/pedroernestovogado" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-primaryDark">
+                <a href="https://linkedin.com/in/pedroernestovogado" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-primaryDark transition-colors">
                   <FaLinkedin />
+                </a>
+                <a 
+                  href={language === 'pt' ? '/curriculo.pdf' : '/resume.pdf'} 
+                  download={language === 'pt' ? 'Pedro-Ernesto-Curriculo.pdf' : 'Pedro-Ernesto-Resume.pdf'} 
+                  className="hover:text-primary dark:hover:text-primaryDark transition-colors"
+                >
+                  <Download size={36} />
                 </a>
               </div>
             </motion.div>

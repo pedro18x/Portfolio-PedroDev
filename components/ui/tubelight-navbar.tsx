@@ -26,8 +26,10 @@ export function NavBar({ items, className, onNavItemClick }: NavBarProps) {
   const { theme } = useTheme()
   const [activeTab, setActiveTab] = useState(items[0].name)
   const [isMobile, setIsMobile] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
     }
@@ -36,6 +38,10 @@ export function NavBar({ items, className, onNavItemClick }: NavBarProps) {
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div
