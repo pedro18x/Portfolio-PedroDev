@@ -1,64 +1,107 @@
-# Portfólio Moderno para Pedro Ernesto
+# 🚀 Portfólio Pedro Ernesto
 
-Este é um projeto de portfólio moderno e responsivo criado para o desenvolvedor Full Stack Pedro Ernesto. O projeto foi desenvolvido com as tecnologias mais recentes do ecossistema React, com foco em uma experiência de usuário fluida e agradável.
+> Meu portfólio pessoal moderno e responsivo como desenvolvedor Full Stack
 
-## 🚀 Tecnologias Utilizadas
+<div align="center">
+  
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 
-- **Next.js**: Framework React para renderização no lado do servidor (SSR), geração de sites estáticos e rotas.
-- **Tailwind CSS**: Framework CSS utilitário para estilização rápida e responsiva.
-- **Framer Motion**: Biblioteca de animação para React, usada para criar transições suaves e interativas.
-- **Spline**: Ferramenta de design 3D para a web, utilizada na seção Hero para um fundo interativo.
-- **next-themes**: Para gerenciamento de tema (dark/light mode).
-- **TypeScript**: Para um código mais robusto e escalável.
+</div>
 
-## 🧩 Estrutura do Projeto
+## 📋 Sobre o Projeto
 
-O projeto segue a estrutura de diretórios do Next.js App Router:
+Olá! 👋 Este é o meu portfólio pessoal, onde compartilho um pouco sobre mim, meus projetos e habilidades como desenvolvedor Full Stack. Criei este projeto utilizando as tecnologias mais modernas do ecossistema React, sempre buscando uma experiência de usuário fluida e agradável.
+
+O projeto demonstra a implementação de uma arquitetura moderna com Next.js 14, sistema de internacionalização, temas dinâmicos e integração com APIs externas.
+
+## ✨ Funcionalidades
+
+- 🌐 **Internacionalização**: Sistema completo de tradução português/inglês
+- 🌙 **Tema Escuro/Claro**: Alternância suave entre temas com persistência
+- 📱 **Design Responsivo**: Adaptação perfeita para todos os dispositivos
+- 🎨 **Animações Fluidas**: Transições e micro-interações com Framer Motion
+- 📧 **Sistema de Contato**: Formulário funcional integrado com Resend
+- ⚡ **Performance Otimizada**: SSR, lazy loading e otimizações do Next.js
+- 🎯 **Navegação Intuitiva**: Menu interativo com efeitos visuais modernos
+
+## 🛠️ Tecnologias
+
+### Frontend
+- **[Next.js 14](https://nextjs.org/)** - Framework React com App Router
+- **[TypeScript](https://www.typescriptlang.org/)** - Superset tipado do JavaScript
+- **[TailwindCSS](https://tailwindcss.com/)** - Framework CSS utilitário
+- **[Framer Motion](https://www.framer.com/motion/)** - Biblioteca de animações
+- **[next-themes](https://github.com/pacocoursey/next-themes)** - Gerenciamento de temas
+- **[Spline](https://spline.design/)** - Elementos 3D interativos
+
+### Backend & Integrações
+- **[Resend](https://resend.com/)** - Serviço de email transacional
+- **[React Email](https://react.email/)** - Templates de email em React
+
+### Ferramentas de Desenvolvimento
+- **[ESLint](https://eslint.org/)** - Linter para JavaScript/TypeScript
+- **[Prettier](https://prettier.io/)** - Formatador de código
+
+## 📁 Estrutura do Projeto
 
 ```
-/
-├── app/                  # Páginas e layouts
-├── components/           # Componentes React reutilizáveis
-│   ├── providers/
-│   ├── sections/
-│   └── ui/
-├── lib/                  # Funções e dados auxiliares
-├── public/               # Arquivos estáticos (imagens, fontes)
-└── ...                   # Arquivos de configuração
+portfolio/
+├── 📁 app/                    # App Router do Next.js
+│   ├── 📁 api/               # API Routes
+│   │   └── 📁 contact/       # Endpoint de contato
+│   ├── 📄 layout.tsx         # Layout principal
+│   ├── 📄 page.tsx          # Página inicial
+│   └── 📄 providers.tsx     # Providers globais
+├── 📁 components/            # Componentes React
+│   ├── 📁 layout/           # Componentes de layout
+│   ├── 📁 sections/         # Seções da página
+│   └── 📁 ui/               # Componentes de interface
+├── 📁 contexts/             # Contextos React
+│   └── 📄 LanguageContext.tsx
+├── 📁 emails/               # Templates de email
+├── 📁 lib/                  # Utilitários e dados
+├── 📁 public/               # Assets estáticos
+└── 📄 tailwind.config.ts    # Configuração do Tailwind
 ```
 
-- Os dados dos projetos estão centralizados em `lib/data.ts`, facilitando a adição de novos projetos.
-- As seções da página (`Hero`, `About`, `Projects`, `Contact`) são componentizadas e se encontram em `components/sections`.
+## 🚀 Como Executar
 
-## ⚙️ Como Executar o Projeto
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/portfolio.git
+cd portfolio
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone <url-do-repositorio>
-    cd <nome-do-repositorio>
-    ```
+# Instale as dependências
+npm install
 
-2.  **Instale as dependências:**
-    ```bash
-    npm install
-    ```
-    ou
-    ```bash
-    yarn install
-    ```
+# Configure as variáveis de ambiente
+cp .env.example .env.local
+# Adicione sua RESEND_API_KEY no arquivo .env.local
 
-3.  **Execute o servidor de desenvolvimento:**
-    ```bash
-    npm run dev
-    ```
-    Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
+# Execute o servidor de desenvolvimento
+npm run dev
+```
+
+Acesse [http://localhost:3000](http://localhost:3000) para ver o resultado.
 
 ## 🎨 Personalização
 
-- **Projetos**: Para adicionar ou modificar projetos, edite o arquivo `lib/data.ts`. Lembre-se de adicionar as imagens dos projetos na pasta `public/`.
-- **Informações Pessoais**: Altere as informações na seção `About` (`components/sections/about.tsx`) e os links de contato em `components/sections/contact.tsx`.
-- **Estilos e Cores**: As cores principais do tema podem ser ajustadas no arquivo `tailwind.config.ts`.
+- **Projetos**: Os dados dos projetos estão centralizados para facilitar atualizações
+- **Informações Pessoais**: Seções dedicadas para apresentar trajetória e habilidades
+- **Sistema de Cores**: Paleta de cores consistente que funciona nos dois temas
+- **Componentes Reutilizáveis**: Biblioteca de componentes para manter consistência
 
-## deploy na vercel
 
-O deploy para a Vercel é automático. Basta conectar seu repositório Git à Vercel e a plataforma cuidará do resto. 
+## 📞 Contato
+
+Gostou do projeto? Entre em contato através do formulário no portfólio ou nas redes sociais.
+
+---
+
+<div align="center">
+  <strong>Desenvolvido com ❤️ por Pedro Ernesto</strong>
+</div> 
