@@ -66,27 +66,7 @@ portfolio/
 ├── 📁 lib/                  # Utilitários e dados
 ├── 📁 public/               # Assets estáticos
 └── 📄 tailwind.config.ts    # Configuração do Tailwind
-```
-
-## 🚀 Como Executar
-
-```bash
-# Clone o repositório
-git clone https://github.com/seu-usuario/portfolio.git
-cd portfolio
-
-# Instale as dependências
-npm install
-
-# Configure as variáveis de ambiente
-cp .env.example .env.local
-# Adicione sua RESEND_API_KEY no arquivo .env.local
-
-# Execute o servidor de desenvolvimento
-npm run dev
-```
-
-Acesse [http://localhost:3000](http://localhost:3000) para ver o resultado.
+``` 
 
 ## 🎨 Personalização
 
@@ -94,6 +74,9 @@ Acesse [http://localhost:3000](http://localhost:3000) para ver o resultado.
 - **Informações Pessoais**: Seções dedicadas para apresentar trajetória e habilidades
 - **Sistema de Cores**: Paleta de cores consistente que funciona nos dois temas
 - **Componentes Reutilizáveis**: Biblioteca de componentes para manter consistência
+
+
+  Acesse meu [Portfólio](https://pedro-dev-five.vercel.app/).
 
 
 ## 📞 Contato
