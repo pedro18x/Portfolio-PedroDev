@@ -60,7 +60,7 @@ export default function Contact() {
    */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus({ type: "loading", message: "Enviando..." });
+    setStatus({ type: "loading", message: t("contact.sending") });
 
     try {
       const res = await fetch("/api/contact", {
@@ -74,20 +74,20 @@ export default function Contact() {
       if (res.ok) {
         setStatus({
           type: "success",
-          message: "Mensagem enviada com sucesso! Obrigado.",
+          message: t("contact.successMessage"),
         });
         // Limpa o formulário após o sucesso
         setFormData({ name: "", email: "", message: "" });
       } else {
         setStatus({
           type: "error",
-          message: data.error || "Ocorreu um erro ao enviar a mensagem.",
+          message: data.error || t("contact.errorMessage"),
         });
       }
     } catch (error) {
       setStatus({
         type: "error",
-        message: "Não foi possível conectar ao servidor. Tente novamente.",
+        message: t("contact.connectionError"),
       });
     }
   };

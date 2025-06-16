@@ -25,7 +25,11 @@
     "namePlaceholder": "Seu Nome",
     "emailPlaceholder": "Seu Email",
     "messagePlaceholder": "Sua Mensagem",
-    "submitButton": "Enviar Mensagem"
+    "submitButton": "Enviar Mensagem",
+    "sending": "Enviando...",
+    "successMessage": "Mensagem enviada com sucesso! Obrigado.",
+    "errorMessage": "Ocorreu um erro ao enviar a mensagem.",
+    "connectionError": "Não foi possível conectar ao servidor. Tente novamente."
   },
   "projects": {
     "title": "Meus Projetos",
