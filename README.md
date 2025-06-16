@@ -98,7 +98,9 @@ Acesse [http://localhost:3000](http://localhost:3000) para ver o resultado.
 
 ## 📞 Contato
 
-Gostou do projeto? Entre em contato através do formulário no portfólio ou nas redes sociais.
+Gostou do projeto? Entre em contato através do formulário no portfólio ou no Linkedin.
+
+[Linkedin](https://www.linkedin.com/in/pedroernestovogado/)
 
 ---
 
