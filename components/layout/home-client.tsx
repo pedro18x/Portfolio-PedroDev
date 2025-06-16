@@ -41,14 +41,48 @@ export function HomeClient() {
   
   // Estado para controlar a visibilidade do botão "Scroll to Top"
   const [showScrollTop, setShowScrollTop] = useState(false);
+  // Estado para controlar qual seção está ativa
+  const [activeSection, setActiveSection] = useState("#home");
 
-  // Efeito para adicionar um listener de rolagem que mostra/esconde o botão
+  // Efeito para adicionar um listener de rolagem que mostra/esconde o botão e atualiza a seção ativa
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
+
+      // Scroll spy - detecta qual seção está visível
+      const sections = ["#home", "#about", "#stacks", "#projects", "#contact"];
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Se estamos próximos do final da página, ativa a última seção
+      if (scrollPosition + windowHeight >= documentHeight - 100) {
+        setActiveSection("#contact");
+        return;
+      }
+
+      // Detecta a seção ativa baseada na posição do scroll
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.querySelector(sections[i]);
+        if (section) {
+          const sectionTop = (section as HTMLElement).offsetTop;
+          const sectionHeight = (section as HTMLElement).offsetHeight;
+          const sectionBottom = sectionTop + sectionHeight;
+          
+          // Considera uma seção ativa se o meio da viewport está dentro dela
+          const viewportMiddle = scrollPosition + windowHeight / 2;
+          
+          if (viewportMiddle >= sectionTop && viewportMiddle < sectionBottom) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+    // Chama uma vez para definir a seção inicial
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -78,7 +112,7 @@ export function HomeClient() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-light dark:bg-dark text-foreground relative">
-      <NavBar items={navItems} onNavItemClick={scrollToSection} />
+      <NavBar items={navItems} onNavItemClick={scrollToSection} activeSection={activeSection} />
 
       <div className="fixed top-0 left-0 w-full h-full z-0">
         <FloatingPaths position={1} />
@@ -101,7 +135,7 @@ export function HomeClient() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed bottom-8 right-8 z-50"
+            className="fixed bottom-8 right-4 sm:right-8 z-40"
           >
             <Button
               onClick={scrollToTop}

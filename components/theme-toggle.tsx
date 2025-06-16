@@ -22,7 +22,7 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleTheme}
-      className="relative flex items-center justify-center p-2 rounded-full transition-colors focus:outline-none"
+      className="relative flex items-center justify-center p-1.5 sm:p-2 rounded-full transition-colors focus:outline-none"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       initial={{ opacity: 0, scale: 0.9 }}
@@ -31,7 +31,7 @@ export default function ThemeToggle() {
     >
       <div className="absolute inset-0 bg-background/5 border border-border rounded-full backdrop-blur-sm" />
 
-      <div className="relative text-lg">
+      <div className="relative text-base sm:text-lg">
         {theme === "dark" ? (
           <FiSun />
         ) : (
