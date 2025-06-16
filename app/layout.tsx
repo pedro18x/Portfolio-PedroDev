@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 const title = "Pedro Ernesto | Desenvolvedor Full Stack";
 const description = "Portfólio de Pedro Ernesto, um desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes.";
 const url = "https://pedro-dev-five.vercel.app/";
-const imageUrl = "https://github.com/pedro18x.png";
+const imageUrl = `${url}api/og`;
 
 /**
  * Metadados para SEO e compartilhamento em redes sociais.
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: imageUrl,
-        width: 800,
-        height: 800,
-        alt: "Foto de Pedro Ernesto",
+        width: 1200,
+        height: 630,
+        alt: "Pedro Ernesto - Desenvolvedor Full Stack",
       },
     ],
     locale: "pt_BR",
