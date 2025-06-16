@@ -26,7 +26,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     // Envia o email usando a instância do Resend
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact <contato@contatopedro.on.resend.email>',
+      from: 'Acme <onboarding@resend.dev>',
       to: ['pedroernestovogado@gmail.com'],
       subject: `Nova mensagem de ${name} via Portfólio`,
       react: ContactEmail({

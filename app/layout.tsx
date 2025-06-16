@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 const title = "Pedro Ernesto | Desenvolvedor Full Stack";
 const description = "Portfólio de Pedro Ernesto, um desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes.";
-const url = "https://pedro-dev.vercel.app/";
+const url = "https://pedro-dev-five.vercel.app/";
 const imageUrl = "https://github.com/pedro18x.png";
 
 /**
