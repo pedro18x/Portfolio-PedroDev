@@ -114,7 +114,7 @@ export const projects: Project[] = [
     descriptionKey: "projects.nlwJs.description",
     tags: ["JavaScript", "Node.js", "React", "API Rest"],
     imageUrl: "/nlw-js.png",
-    githubUrl: "https://github.com/pedro18x/NLW-JS"
+    githubUrl: "https://github.com/pedro18x/in.orbit"
   },
   {
     id: 'zingen',
