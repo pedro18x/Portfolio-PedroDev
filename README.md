@@ -36,7 +36,6 @@ O projeto demonstra a implementação de uma arquitetura moderna com Next.js 14,
 - **[TailwindCSS](https://tailwindcss.com/)** - Framework CSS utilitário
 - **[Framer Motion](https://www.framer.com/motion/)** - Biblioteca de animações
 - **[next-themes](https://github.com/pacocoursey/next-themes)** - Gerenciamento de temas
-- **[Spline](https://spline.design/)** - Elementos 3D interativos
 
 ### Backend & Integrações
 - **[Resend](https://resend.com/)** - Serviço de email transacional
