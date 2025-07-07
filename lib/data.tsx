@@ -1,4 +1,4 @@
-import { Code2, FileCode, Globe, Palette, Atom, Server, Zap, Database, GitBranch, BookOpen } from 'lucide-react';
+import { Code2, FileCode, Globe, Palette, Atom, Server, Zap, Database, GitBranch, BookOpen, Container } from 'lucide-react';
 import React from 'react';
 
 /**
@@ -67,6 +67,12 @@ export const technologies: Technology[] = [
     id: 'postgresql',
     name: 'PostgreSQL',
     icon: <Database className="w-8 h-8" />,
+    level: 'Intermediate',
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    icon: <Container className="w-8 h-8" />,
     level: 'Intermediate',
   },
   {
