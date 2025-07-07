@@ -123,5 +123,21 @@ export const projects: Project[] = [
     tags: ["HTML", "CSS"],
     imageUrl: "/zingen.png",
     githubUrl: "https://github.com/pedro18x/Zingen-RS6-"
+  },
+  {
+    id: 'numbers',
+    titleKey: "projects.numbers.title",
+    descriptionKey: "projects.numbers.description",
+    tags: ["HTML5", "CSS3", "JavaScript", "Rocketseat"],
+    imageUrl: "/numbers-rs10.png",
+    githubUrl: "https://github.com/pedro18x/numbers-RS10-"
+  },
+  {
+    id: 'apiRestaurante',
+    titleKey: "projects.apiRestaurante.title",
+    descriptionKey: "projects.apiRestaurante.description",
+    tags: ["Node.js", "Express.js", "TypeScript", "Knex.js", "SQLite3", "Zod"],
+    imageUrl: "/api-restaurante.png",
+    githubUrl: "https://github.com/pedro18x/API-Restaurante"
   }
 ]; 

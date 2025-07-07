@@ -44,6 +44,14 @@
     "zingen": {
       "title": "Zingen",
       "description": "A modern and responsive interface focused on design and usability."
+    },
+    "numbers": {
+      "title": "Numbers",
+      "description": "Intuitive web application for number drawing with custom intervals, developed as a Rocketseat challenge."
+    },
+    "apiRestaurante": {
+      "title": "Restaurant API",
+      "description": "REST API for managing restaurant table orders."
     }
   },
   "footer": {

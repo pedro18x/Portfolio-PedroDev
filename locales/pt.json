@@ -44,6 +44,14 @@
     "zingen": {
       "title": "Zingen",
       "description": "Interface moderna e responsiva focada em design e usabilidade."
+    },
+    "numbers": {
+      "title": "Numbers",
+      "description": "Aplicativo web intuitivo para sorteio de números com intervalos personalizados, desenvolvido como desafio da Rocketseat."
+    },
+    "apiRestaurante": {
+      "title": "API Restaurante",
+      "description": "API REST para gerenciar pedidos de mesas de restaurante."
     }
   },
   "footer": {
