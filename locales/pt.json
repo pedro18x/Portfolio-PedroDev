@@ -51,7 +51,11 @@
     },
     "apiRestaurante": {
       "title": "API Restaurante",
-      "description": "API REST para gerenciar pedidos de mesas de restaurante."
+      "description": "API REST para gerenciar pedidos de mesas de restaurante, desenvolvida com Node.js, Express, TypeScript e SQLite3."
+    },
+    "rocketlog": {
+      "title": "Rocketlog",
+      "description": "API robusta para gerenciamento de entregas com autenticação JWT, containerizada com Docker e testes automatizados."
     }
   },
   "footer": {

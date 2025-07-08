@@ -51,7 +51,11 @@
     },
     "apiRestaurante": {
       "title": "Restaurant API",
-      "description": "REST API for managing restaurant table orders."
+      "description": "REST API for managing restaurant table orders, developed with Node.js, Express, TypeScript and SQLite3."
+    },
+    "rocketlog": {
+      "title": "Rocketlog",
+      "description": "Robust API for delivery management with JWT authentication, containerized with Docker and automated testing."
     }
   },
   "footer": {

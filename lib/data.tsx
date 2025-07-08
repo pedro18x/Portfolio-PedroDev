@@ -123,12 +123,20 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/pedro18x/in.orbit"
   },
   {
-    id: 'zingen',
-    titleKey: "projects.zingen.title",
-    descriptionKey: "projects.zingen.description",
-    tags: ["HTML", "CSS"],
-    imageUrl: "/zingen.png",
-    githubUrl: "https://github.com/pedro18x/Zingen-RS6-"
+    id: 'rocketlog',
+    titleKey: "projects.rocketlog.title",
+    descriptionKey: "projects.rocketlog.description",
+    tags: ["Node.js", "Express.js", "TypeScript", "Prisma", "PostgreSQL", "JWT", "Docker", "Jest"],
+    imageUrl: "/rocketlog.png",
+    githubUrl: "https://github.com/pedro18x/Rocketlog"
+  },
+  {
+    id: 'apiRestaurante',
+    titleKey: "projects.apiRestaurante.title",
+    descriptionKey: "projects.apiRestaurante.description",
+    tags: ["Node.js", "Express.js", "TypeScript", "Knex.js", "SQLite3", "Zod"],
+    imageUrl: "/api-restaurante.png",
+    githubUrl: "https://github.com/pedro18x/API-Restaurante"
   },
   {
     id: 'numbers',
@@ -139,11 +147,11 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/pedro18x/numbers-RS10-"
   },
   {
-    id: 'apiRestaurante',
-    titleKey: "projects.apiRestaurante.title",
-    descriptionKey: "projects.apiRestaurante.description",
-    tags: ["Node.js", "Express.js", "TypeScript", "Knex.js", "SQLite3", "Zod"],
-    imageUrl: "/api-restaurante.png",
-    githubUrl: "https://github.com/pedro18x/API-Restaurante"
+    id: 'zingen',
+    titleKey: "projects.zingen.title",
+    descriptionKey: "projects.zingen.description",
+    tags: ["HTML", "CSS"],
+    imageUrl: "/zingen.png",
+    githubUrl: "https://github.com/pedro18x/Zingen-RS6-"
   }
 ]; 
