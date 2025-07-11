@@ -41,6 +41,10 @@
       "title": "NLW-JS InOrbit",
       "description": "Application for tracking goals, developed during Rocketseat's NLW."
     },
+    "letMeAsk": {
+      "title": "Let me Ask",
+      "description": "Fullstack application that uses AI to transcribe audio to text and answer questions using Google Gemini."
+    },
     "zingen": {
       "title": "Zingen",
       "description": "A modern and responsive interface focused on design and usability."

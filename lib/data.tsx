@@ -123,6 +123,14 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/pedro18x/in.orbit"
   },
   {
+    id: 'letMeAsk',
+    titleKey: "projects.letMeAsk.title",
+    descriptionKey: "projects.letMeAsk.description",
+    tags: ["React", "Node.js", "TypeScript", "Google Gemini", "PostgreSQL", "Docker", "Fastify", "TailwindCSS"],
+    imageUrl: "/nlw-agents.png",
+    githubUrl: "https://github.com/pedro18x/NLW-Agents"
+  },
+  {
     id: 'rocketlog',
     titleKey: "projects.rocketlog.title",
     descriptionKey: "projects.rocketlog.description",
