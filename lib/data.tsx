@@ -139,6 +139,14 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/pedro18x/Rocketlog"
   },
   {
+    id: 'refundApp',
+    titleKey: "projects.refundApp.title",
+    descriptionKey: "projects.refundApp.description",
+    tags: ["React", "TypeScript", "TailwindCSS", "Shadcn/ui", "Vite"],
+    imageUrl: "/RefundApp.png",
+    githubUrl: "https://github.com/pedro18x/RefundApp-Frontend"
+  },
+  {
     id: 'apiRestaurante',
     titleKey: "projects.apiRestaurante.title",
     descriptionKey: "projects.apiRestaurante.description",

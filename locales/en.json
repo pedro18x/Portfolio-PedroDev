@@ -33,6 +33,10 @@
   },
   "projects": {
     "title": "My Projects",
+    "refundApp": {
+      "title": "RefundApp",
+      "description": "A modern web application for managing refund requests, built with React, TypeScript, and TailwindCSS."
+    },
     "bancoNext": {
       "title": "BancoNext",
       "description": "A modern digital banking application with Plaid and Dwolla integration."
