@@ -21,18 +21,15 @@ One centered column, `max-width: 42rem`, `padding-inline: 1.5rem`, top padding ~
 
 1. **Header** — h1 "Pedro Ernesto"; role line "Software Engineer" (muted); meta row (mono, 13px): "João Pessoa, Brazil · GitHub · LinkedIn · Email". Email in the meta row scrolls to the contact form (anchor), not mailto.
 2. **About** — one paragraph, 3 sentences, from the CV summary voice: full stack engineer specialized in diagnosing and engineering reliability into complex automated systems; currently building Maestro (mobile.dev) — single link, only company mention above the fold; final-year CS student at UNIPÊ. AI-native workflow fluency (Claude Code, Codex) lives in the Maestro bullets only, not in About.
-3. **Experience** — section label; entries with header row (company — role, left; period in mono, right; stacked on mobile) and 3–5 bullets:
+3. **Experience** — section label; entries with header row (company — role, left; period in mono, right; stacked on mobile) and 3–4 short bullets. **Tone rule (user decision 2026-07-15): this is not the CV — describe what Pedro works on, qualitatively; no metrics, percentages, or counts anywhere in the section.**
    - **Maestro (mobile.dev) — Software Engineer** · Mar 2026 – Present · Remote
-     - Led the technical overhaul of the Maestro MCP server (Kotlin, some TypeScript): −20% token consumption per call, 8 new tools, ~30% faster responses.
-     - Tech lead for agent-reliability evaluation: built an eval runner on Inspect AI that exercises Claude Code and Codex harnesses against a live agent, classifying failure modes into a structured taxonomy with end-to-end reliability metrics.
-     - Built and maintained Playwright-based automated test flows; Android/iOS device automation via ADB and dadb.
-     - Shipped features and fixes across Maestro Studio and the open-source Maestro CLI.
-     - Built custom Claude Code skills and agents adopted in the team's daily development loop.
+     - Led the overhaul of the Maestro MCP server (Kotlin, TypeScript), which lets AI agents write, run, and debug UI tests.
+     - Built agent-reliability evaluation tooling that exercises coding agents like Claude Code and Codex against the live platform.
+     - Ship features and fixes across Maestro Studio and the open-source Maestro CLI, plus Playwright test flows and Android/iOS device automation.
    - **ServiceNet Tecnologia — Software Engineer (Internship)** · Aug 2025 – Mar 2026 · João Pessoa
-     - Developed two high-volume platforms: an ERP/business-management system and an affiliate/transaction platform.
-     - Built high-performance backend modules (TypeScript, Node.js) for high-volume transaction processing, including commission-calculation pipelines with auditability.
-     - Optimized PostgreSQL for high-throughput workloads (query tuning, indexing) and enforced data integrity via constraints, transactions, and validation layers.
-     - Integrated third-party APIs and built decoupled integrations between products; AWS S3 file persistence; Docker for dev/prod parity.
+     - Worked on two data-intensive platforms: an ERP system and an affiliate/transaction platform.
+     - Built backend modules in TypeScript and Node.js for high-volume transaction processing.
+     - Focused on PostgreSQL performance and data integrity, with AWS S3 storage and Dockerized environments.
 4. **Education** — B.S. Computer Science, UNIPÊ, João Pessoa · Expected Dec 2026 (final year). Two sub-entries during the degree:
    - Back End Developer, Software Factory (UBTech Office/UNIPÊ) · Feb–Jun 2023 — built applications and REST APIs with Django REST Framework in team-based projects.
    - Computing Tutor, Solidarity Computing School (ECS) · Aug–Dec 2023 — designed and delivered introductory computing courses for young learners; lesson plans, hands-on activities, progress assessment.
@@ -44,15 +41,21 @@ One centered column, `max-width: 42rem`, `padding-inline: 1.5rem`, top padding ~
 
 - **Text**: Inter via `next/font` (self-hosted, zero CLS). **Meta/dates**: `ui-monospace` system stack, `font-variant-numeric: tabular-nums`.
 - Size-specific tracking (apple-design §15): name `-0.02em`, body `0`, section labels 11–12px uppercase `+0.08em` muted. Leading: 1.1 on the name, 1.6 body. Hierarchy from weight+size+leading; spacing in `rem`.
-- **Theme**: CSS variables + `prefers-color-scheme`; no toggle, no JS. Light `#ffffff` bg / `#111111` text; dark `#0a0a0a` / `#ededed`; muted grays chosen to pass WCAG AA on both. Links: underlined, muted `text-decoration-color` darkening on hover. External links suffixed ↗.
+- **Theme**: light only, as a deliberate choice (user decision 2026-07-15): `#ffffff` bg, `#111111` text, muted `#595959`, faint `#6e6e6e`, hairline `#e5e5e5`; `color-scheme: light`. No dark variant, no toggle, no theme JS. Muted grays pass WCAG AA. Links: underlined, muted `text-decoration-color` darkening on hover. External links suffixed ↗. Styled `::selection` (near-black ground, white text).
 
-## Motion (total spec — nothing beyond this)
+## Motion & interaction (total spec — nothing beyond this)
 
-- One-time page-load stagger: each section `opacity 0→1`, `translateY(8px)→0`, 300ms, `cubic-bezier(0.23, 1, 0.32, 1)`, 40ms per-section delay. CSS keyframes (off main thread), non-blocking.
-- Hover: `text-decoration-color`/color transitions 150ms `ease`, gated by `@media (hover:hover) and (pointer:fine)`.
-- Submit button: `transform: scale(0.98)` on `:active`, 100ms ease-out; transition targets `transform` only (never `all`).
-- `prefers-reduced-motion: reduce`: entrance becomes opacity-only 200ms; no translate.
-- Explicitly out: scroll-triggered animation, parallax, springs, JS animation libraries. Rationale: emil-design-eng frequency framework — a short static page is "occasional"; apple-design §16 (Purpose, Simplicity).
+Every item is transform/opacity/color/filter only, uses CSS transitions where the user can interrupt (retargetable, per apple-design §3), and responds on pointer-down (§1). Values follow emil-design-eng's duration table and easing rules.
+
+1. **Entrance** (once per load): each section `opacity 0→1`, `translateY(8px)→0`, `blur(2px)→0`, 400ms `cubic-bezier(0.23, 1, 0.32, 1)`, 45ms per-section stagger. CSS keyframes, non-blocking. Reduced motion: opacity-only 200ms, no delay.
+2. **Links**: hover — `text-decoration-color` muted→current, 150ms `ease` (gated `@media (hover:hover) and (pointer:fine)`); press — `opacity 0.55` instantly on `:active` (0ms down), eased 150ms recovery on release. Works for touch taps too (feedback on pointer-down).
+3. **Work rows**: hovering a row translates its ↗ suffix 2px up-right, 200ms `cubic-bezier(0.23, 1, 0.32, 1)`; reverts on leave. Hover-gated, transform-only.
+4. **Form fields**: static 1px hairline under each field; on focus, a full-strength underline grows `scaleX(0→1)` from the left (`transform-origin: left`, 250ms strong ease-out) and the field label shifts muted→text 150ms. Blur reverses both (mirrored path, §7 spatial consistency).
+5. **Submit button**: `:active { transform: scale(0.98) }` 100ms; label morphs "Send message" → "Sending…" → "Sent" via Emil's blur-masked crossfade (2px blur + reduced opacity for ~100ms while the text swaps, 200ms total). Errors render in the inline status line, not on the button. Button resets to idle after ~2.5s.
+6. **Footer email**: mailto link plus an adjacent small mono "copy" control; click copies the address and the control morphs to "copied" with the same blur-masked crossfade, reverting after 2s.
+7. **Anchor scroll** (header "Email" → contact): `scroll-behavior: smooth`, disabled under reduced motion.
+8. `prefers-reduced-motion: reduce`: entrance = opacity-only; all translate/scale effects dropped; color/opacity feedback retained.
+9. **Explicitly out**: scroll-triggered reveals, parallax, cursor-followers, springs/JS animation libraries. The only JS beyond the form is the clipboard handler. Rationale: emil-design-eng frequency framework — hovers are frequent so they stay ≤200ms and subtle; the entrance is once so it can be elegant (400ms); apple-design §16 (Purpose, Simplicity, Craft).
 
 ## Architecture & files
 
