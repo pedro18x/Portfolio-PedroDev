@@ -99,6 +99,27 @@ The page becomes an **ID card that opens**, adapted (not cloned) from ttiago.com
 - The floating material nav (v3) remains; it observes the card header, so it only ever appears in the open state after scrolling.
 - The open/close toggle label morphs ("Open portfolio" ⇄ "Collapse") with the existing blur-masked crossfade.
 
+## Interactive layer (v5, ultracode pass 2026-07-15 — build-critique-refine loop)
+
+Stack additions: Tailwind migrated v3→v4 (base-nova shadcn components are v4-native); `motion` as the single JS animation engine; shadcn components pulled: accordion, hover-card, tooltip, field, input, textarea, spinner, command, dialog, kbd, button (+label, separator, input-group as deps); react-bits: Magnet (rebuilt on useSpring) — CountUp was pulled then replaced (broken overdamped physics).
+
+What shipped, post-critique (two workflow rounds: Emil/Apple motion critic, shadcn pattern auditor, restraint judge — 32 findings round 1, 9 round 2, converged round 3):
+
+1. **Scroll reveals** (open state): sections rise 8px + fade on first entry, spring 450ms, staggered; stable motion.div identity (no remount/state loss on collapse); no blur (reserved for the card's own entrance); fail-visible under `@media print`.
+2. **Underline draw** on content links (two-layer background, softline base + currentColor draws left→right, 220ms).
+3. **Closed card**: hover lift (−2px + deeper shadow), whole card clickable; mobile keeps 1rem inset (`max-width: min(42rem, 100vw − 2rem)`).
+4. **Icon row**: Magnet ≤3px on useSpring (velocity-preserving, listeners scoped to the padded element, off for touch/reduced-motion); monochrome tooltips with skip-delay grouping and `data-[instant]:animate-none`.
+5. **Contributions**: count-up ~450ms critically damped; card squares use the same gray ramp as the grid (page is fully grayscale — the GitHub greens were cut as the only saturated pixels).
+6. **Activity**: 52-week monochrome heat grid, token-derived color-mix ramp, fits the column exactly, native day tooltips.
+7. **Work accordion**: zero chrome, one-line summaries, spring height *transitions* (280ms, retargetable mid-flight, not keyframes), rotating single chevron, multiple-open, Maestro open by default; valid heading semantics (no h3-in-button).
+8. **Project hover-cards**: image + mono name/tags only (no duplicated description), OG image cropped 2.6:1 to hide GitHub's rainbow language bar and illegible stats.
+9. **Contact form**: shadcn Field/Input/Textarea/Button/Spinner composition (`data-invalid`/`aria-invalid`, FieldError, conditional describedby); red confined to the field rule + helper text; invalid focus-line turns destructive (one rule at a time); success = stroke-drawn checkmark in the button.
+10. **⌘K palette**: cmdk in dialog, purely typographic, zero open/close animation (keyboard-initiated), chip in floating nav only; hash-based navigation that opens the card (input cancels pending scripted scroll).
+11. **Press feedback** on all text pressables (`.press`); floating-nav material densified to 0.82 so under-scroll content never reads as an artifact; scroll-edge blur strip removed.
+12. **Reduced motion**: global neutralization of tw-animate translate/zoom for tooltip/hover-card/dialog and accordion height.
+
+Restraint adjudication (user overruled judge's cuts, kept toned): magnet kept at 3px; parallax kept at 12px; palette kept without chip on the card.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
