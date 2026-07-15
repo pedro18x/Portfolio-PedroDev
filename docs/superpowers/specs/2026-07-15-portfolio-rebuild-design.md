@@ -55,7 +55,14 @@ Every item is transform/opacity/color/filter only, uses CSS transitions where th
 6. **Footer email**: mailto link plus an adjacent small mono "copy" control; click copies the address and the control morphs to "copied" with the same blur-masked crossfade, reverting after 2s.
 7. **Anchor scroll** (header "Email" → contact): `scroll-behavior: smooth`, disabled under reduced motion.
 8. `prefers-reduced-motion: reduce`: entrance = opacity-only; all translate/scale effects dropped; color/opacity feedback retained.
-9. **Explicitly out**: scroll-triggered reveals, parallax, cursor-followers, springs/JS animation libraries. The only JS beyond the form is the clipboard handler. Rationale: emil-design-eng frequency framework — hovers are frequent so they stay ≤200ms and subtle; the entrance is once so it can be elegant (400ms); apple-design §16 (Purpose, Simplicity, Craft).
+9. **Explicitly out**: scroll-triggered reveals, parallax, cursor-followers, JS animation libraries. Rationale: emil-design-eng frequency framework — hovers are frequent so they stay ≤200ms and subtle; the entrance is once so it can be elegant (400ms); apple-design §16 (Purpose, Simplicity, Craft).
+
+## Apple design layer (v3 addition, user request 2026-07-15)
+
+1. **Springs, not beziers, for physical motion** (apple-design §4): transform-based interactions use a critically damped spring (damping 1.0 — no overshoot; hovers/presses carry no momentum) encoded as a CSS `linear()` curve. Tokens: `--spring` (curve) + durations 272ms (`response 0.18` — button release, arrow nudge) and 454ms (`response 0.30` — floating nav). Asymmetric press: button press-down stays 100ms ease-out (instant feedback), release springs back. CSS transitions keep everything interruptible/retargetable mid-flight (§3).
+2. **Material floating nav** (§12): a fixed translucent bar (`rgba(255,255,255,0.6)` + `backdrop-filter: blur(20px) saturate(180%)`) that appears only after the page header scrolls out of view (IntersectionObserver on the header; the page's third and final client component). Contains name (scrolls to top) and GitHub · LinkedIn · Contact. Enter/exit along the same path — `translateY(-100%) ↔ 0` with the gentle spring (§7 spatial consistency); `visibility` toggled after exit so hidden links aren't tabbable. Vibrancy: slightly heavier weight + letter-spacing bump for legibility on the material. **Scroll edge effect, not a hard divider**: a 12px gradient-masked blur under the bar instead of a border.
+3. **Typography** (§15): `font-optical-sizing: auto` with Inter's `opsz` axis loaded via next/font.
+4. **Accessibility triad** (§14): `prefers-reduced-motion` (existing behavior; nav becomes opacity-only), `prefers-reduced-transparency` (nav goes solid white, blur dropped), `prefers-contrast: more` (solid background + defined bottom border).
 
 ## Architecture & files
 
