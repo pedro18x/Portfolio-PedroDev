@@ -89,6 +89,16 @@ Every item is transform/opacity/color/filter only, uses CSS transitions where th
 - Final polish gate: run `find-animation-opportunities` and `review-animations` skills on the finished UI; act only on findings consistent with the motion spec above.
 - Update `.claude/skills/verify/SKILL.md` flows to describe the new page.
 
+## Card layout (v4, user request 2026-07-15 — reference: ttiago.com)
+
+The page becomes an **ID card that opens**, adapted (not cloned) from ttiago.com:
+
+- **Closed state** (initial): a white card (42rem, rounded-2xl, soft shadow) centered on a light-gray canvas (`#f6f6f6`), containing: name, role, "pe" monogram top-right (**no photo** — standing rule), and a mono definition list: LOCATION → João Pessoa, Brazil; CURRENTLY → Maestro (mobile.dev); CONTRIBUTIONS → live GitHub contribution count (server-fetched from github.com/users/pedro18x/contributions, revalidated daily, row hidden on fetch failure) with three green squares as a nod to the contribution graph. One control: "Open portfolio".
+- **Open transition**: the card surface itself expands into the page — margin-top 30vh→0, max-width 42rem→100vw, radius/shadow→0 — while the content unfurls via `grid-template-rows: 0fr→1fr` with an opacity+blur resolve. Gentle spring curve, ~550ms. Collapse reverses along the same path (apple-design §7); CSS transitions keep it interruptible. Collapsed content is `inert` + `aria-hidden` (SEO keeps it in the DOM; keyboard users can't tab into it). Deep links (`#contact`) auto-open on load. Reduced motion: opacity-only crossfade.
+- **Open state content** (inner column stays 42rem): bio paragraph (Tiago-style "From João Pessoa…" opener, no metrics) + inline icon links (GitHub, LinkedIn, email — inline SVGs, no icon library); then sections as **date-left two-column rows** (`8.5rem` mono period column, stacked on mobile): WORK (Maestro with bullets, ServiceNet with bullets, Back End Developer — Software Factory one-liner), EDUCATION (B.S. UNIPÊ, 2023 — 2026, expected Dec 2026), VOLUNTEER (Computing Tutor — Solidarity Computing School), PROJECTS (the three Maestro product links), CONTACT (existing form), footer.
+- The floating material nav (v3) remains; it observes the card header, so it only ever appears in the open state after scrolling.
+- The open/close toggle label morphs ("Open portfolio" ⇄ "Collapse") with the existing blur-masked crossfade.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
