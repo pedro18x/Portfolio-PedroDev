@@ -136,6 +136,8 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 
 - **⌘K palette removed entirely** (user: redundant on a one-view page; the restraint judge's original cut, now confirmed). Deleted: command-palette, ui/command, ui/dialog, ui/input-group, ui/kbd, the `cmdk` dependency, and both chips.
 - **Contact form redesigned**: iOS-style grouped filled fields (`.field-input`: muted fill, rounded-lg, transparent border; focus = white surface + softline border + 3px monochrome halo; invalid = destructive border/halo). Name and email share a row on ≥sm. The hairline/focus-line treatment retired with the old form.
+- **Form validation policy: reward early, punish late** (2026-07-15): required errors only on submit; format errors on blur of non-empty fields; Enter in single-line inputs advances to the next field instead of submitting. Fixes the accidental all-red state.
+- **Quick-look card shows real profile facts** (public repos · followers, GitHub API, revalidated hourly) instead of repeating the contribution count; the count appears once, in the grid caption. The invented 'Mostly Maestro' line was removed (Pedro's GitHub is not only Maestro).
 - **Activity board is a link**: the whole grid + caption anchors to the GitHub profile (caption gains the ↗ nudge). Hovering opens a quick-look profile card (monogram, @handle, live total, gray ramp) wrapped in `SpotlightCard` — adapted from @react-bits/SpotlightCard to light monochrome with off-render-path pointer tracking. @react-bits/PixelCard was evaluated and rejected (298 lines of canvas, too busy).
 
 ## Out of scope
