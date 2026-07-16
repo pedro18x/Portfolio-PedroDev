@@ -143,7 +143,7 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 ## v6 amendments, continued (2026-07-16)
 
 - **Contribution count**: the public endpoint only reports public contributions (238) while Pedro's logged-in view includes private-repo work (783). `lib/github.ts` now prefers an authenticated GraphQL path when `GITHUB_TOKEN` is set (exact per-day counts, private included), falling back to the public scrape. Zero-code alternative: enabling "Private contributions" in GitHub's contribution settings makes the public count complete.
-- **Viz**: the 52-week calendar was replaced by a last-30-days bar strip (heights proportional to daily counts, zero days as faint stubs) — hand-rolled, no chart library (shadcn's chart pulls recharts; rejected as disproportionate). Quick-look hover unchanged.
+- **Viz (final, 2026-07-16)**: recent-window calendar — last 16 weeks of the same monochrome heatmap at larger cells (13px), with a single delegated day-tooltip ("16 contributions on May 22nd.") that follows the hovered cell, anchored outside the scroll clip and clamped to the column. The bar-strip iteration was rejected by Pedro. Profile quick-look moved to the caption line. Pedro enabled GitHub's "Private contributions" setting, so the public count is complete (783) without a token; GITHUB_TOKEN remains an optional hardening path.
 
 ## Out of scope
 
