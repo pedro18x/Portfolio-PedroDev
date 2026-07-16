@@ -140,6 +140,11 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 - **Quick-look card shows real profile facts** (public repos · followers, GitHub API, revalidated hourly) instead of repeating the contribution count; the count appears once, in the grid caption. The invented 'Mostly Maestro' line was removed (Pedro's GitHub is not only Maestro).
 - **Activity board is a link**: the whole grid + caption anchors to the GitHub profile (caption gains the ↗ nudge). Hovering opens a quick-look profile card (monogram, @handle, live total, gray ramp) wrapped in `SpotlightCard` — adapted from @react-bits/SpotlightCard to light monochrome with off-render-path pointer tracking. @react-bits/PixelCard was evaluated and rejected (298 lines of canvas, too busy).
 
+## v6 amendments, continued (2026-07-16)
+
+- **Contribution count**: the public endpoint only reports public contributions (238) while Pedro's logged-in view includes private-repo work (783). `lib/github.ts` now prefers an authenticated GraphQL path when `GITHUB_TOKEN` is set (exact per-day counts, private included), falling back to the public scrape. Zero-code alternative: enabling "Private contributions" in GitHub's contribution settings makes the public count complete.
+- **Viz**: the 52-week calendar was replaced by a last-30-days bar strip (heights proportional to daily counts, zero days as faint stubs) — hand-rolled, no chart library (shadcn's chart pulls recharts; rejected as disproportionate). Quick-look hover unchanged.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
