@@ -120,6 +120,18 @@ What shipped, post-critique (two workflow rounds: Emil/Apple motion critic, shad
 
 Restraint adjudication (user overruled judge's cuts, kept toned): magnet kept at 3px; parallax kept at 12px; palette kept without chip on the card.
 
+## Rail layout (v6, user request 2026-07-15 — replaces the v4 card concept)
+
+The ID-card-that-opens was retired: too close to its reference (ttiago.com). The page is now a **fixed-rail split layout**, chosen by the user from five design directions:
+
+- **Rail (left, sticky, full-height, hairline right border)**: name, role, thesis line ("I care about diagnosing and engineering reliability into complex automated systems."), section nav with scroll-spy (mono uppercase labels, leading rule that grows on hover/active — the site's line vocabulary), social icons (Magnet + tooltips), location/email, ⌘K chip, ©. On <md it becomes a static header; the floating material nav is mobile-only and observes `#site-header`.
+- **Content (right, 40rem)**: intro paragraph → Work (accordion) → Activity → Education → Volunteer → Projects (hover-cards) → Contact (form + email/copy footer row). Grid children carry `min-w-0` (the activity grid's `w-max` otherwise dictates column width and overflows mobile).
+- **Retired with the card**: CardShell/ShellOpenContext, the header parallax (the restraint judge's cut, now moot), the contributions dl row, hash-open logic (palette navigation is plain `scrollIntoView` + `history.replaceState`).
+
+**Copy rule (user, 2026-07-15): no em dashes anywhere in site copy.** Date ranges use en dash (–); prose restructured with commas/semicolons/colons. Project descriptions are standalone sentences (no dash separators).
+
+**Live GitHub activity**: `/api/contributions` (force-dynamic, no-store) scrapes and parses per request; the page server-renders an hourly ISR snapshot for instant paint and the client silently swaps in the fresh response after hydration. The count animates from the displayed value to the live value (never restarts from zero). Failures keep the snapshot; if neither exists the section hides.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
