@@ -132,6 +132,12 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 
 **Live GitHub activity**: `/api/contributions` (force-dynamic, no-store) scrapes and parses per request; the page server-renders an hourly ISR snapshot for instant paint and the client silently swaps in the fresh response after hydration. The count animates from the displayed value to the live value (never restarts from zero). Failures keep the snapshot; if neither exists the section hides.
 
+## v6 amendments (user, 2026-07-15)
+
+- **⌘K palette removed entirely** (user: redundant on a one-view page; the restraint judge's original cut, now confirmed). Deleted: command-palette, ui/command, ui/dialog, ui/input-group, ui/kbd, the `cmdk` dependency, and both chips.
+- **Contact form redesigned**: iOS-style grouped filled fields (`.field-input`: muted fill, rounded-lg, transparent border; focus = white surface + softline border + 3px monochrome halo; invalid = destructive border/halo). Name and email share a row on ≥sm. The hairline/focus-line treatment retired with the old form.
+- **Activity board is a link**: the whole grid + caption anchors to the GitHub profile (caption gains the ↗ nudge). Hovering opens a quick-look profile card (monogram, @handle, live total, gray ramp) wrapped in `SpotlightCard` — adapted from @react-bits/SpotlightCard to light monochrome with off-render-path pointer tracking. @react-bits/PixelCard was evaluated and rejected (298 lines of canvas, too busy).
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
