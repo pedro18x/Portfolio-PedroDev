@@ -152,6 +152,14 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 
 ## v7: monogram rail (2026-07-16)
 
+### v7.1: the pixel plate (2026-07-16, supersedes the 3D monogram)
+
+Pedro saw the solid 3D version live and rejected it ("not sure if i like this"). Diagnosis agreed on: a rotating two-letter mark is legible only a fraction of the time; it was the page's only always-moving element (violating the site's own restraint rules); and the fuzzy point-cloud texture fought the machined hairline/typographic character. From a three-option artifact (A settles-legible 3D, B pixel plate, C dither orb) Pedro chose **B: the pixel plate**.
+
+`components/monogram.tsx` now renders the "pe" flat, set in the contribution calendar's own visual language: a coarse grid of rounded cells in the monochrome ink ramp, each cell with a hashed base intensity. Motion is user-caused plus one ambient exception Pedro approved: a very slow per-cell shimmer (sine, ~12s period, amplitude 0.08, disabled under reduced motion). Interactions: ink deepens under the cursor with smoothed falloff (radius 80px); a click sends a gaussian ring ripple through the plate (900ms life). Reduced motion: static plate, hover/click still respond (user-initiated), redrawn on demand. All prior budgets kept: Geist sampling after fonts.ready, 200ms first-paint fade, ResizeObserver fit, IntersectionObserver + visibilitychange loop pause, precomputed 64-step ink table, roundRect with fillRect fallback, hidden on mobile. Cursor stays default (no grab); the plate is decorative, aria-hidden.
+
+The 3D solid/physics work is retired but documented below for the record.
+
 - **Scroll-spy nav removed** (user: pointless on a page readable with almost no scrolling). The `.rnav` styles, `sections` prop, and `SECTIONS` list are gone; deep-link ids on sections remain.
 - **The rail's empty middle now holds a 3D dithered "pe" monogram** (`components/monogram.tsx`, zero dependencies, ~200 lines of canvas). The glyph is sampled from an offscreen canvas in the real Geist (after `document.fonts.ready`), extruded as a true solid: front face + back face + continuous side walls wherever the glyph has an edge (a surface shell, ~4k points; DEPTH 54), rotated/projected by hand. The first cut used 4 discrete z-layers and read as stacked cutouts edge-on; Pedro rejected that ("I wanted it to be fully 3d") and the shell replaced it, and shaded by Bayer 4x4 ordered dithering deciding which points draw, so the aesthetic matches the contribution calendar.
 - **Physics (apple-design pointer rules)**: idle auto-rotation (0.0045 rad/frame); pointer drag tracks 1:1 with capture; release hands off the gesture velocity (clamped, decayed by friction back into the idle spin; a stalled pointer hands off nothing); vertical tilt is clamped and springs back. Grabbing mid-coast retargets instantly (interruptible).
