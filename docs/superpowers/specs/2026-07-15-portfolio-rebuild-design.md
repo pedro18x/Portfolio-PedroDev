@@ -145,6 +145,11 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 - **Contribution count**: the public endpoint only reports public contributions (238) while Pedro's logged-in view includes private-repo work (783). `lib/github.ts` now prefers an authenticated GraphQL path when `GITHUB_TOKEN` is set (exact per-day counts, private included), falling back to the public scrape. Zero-code alternative: enabling "Private contributions" in GitHub's contribution settings makes the public count complete.
 - **Viz (final, 2026-07-16)**: recent-window calendar — last 16 weeks of the same monochrome heatmap at larger cells (13px), with a single delegated day-tooltip ("16 contributions on May 22nd.") that follows the hovered cell, anchored outside the scroll clip and clamped to the column. The bar-strip iteration was rejected by Pedro. Profile quick-look moved to the caption line. Pedro enabled GitHub's "Private contributions" setting, so the public count is complete (783) without a token; GITHUB_TOKEN remains an optional hardening path.
 
+## Harmony pass (2026-07-16)
+
+- Activity calendar is fluid: 26 weeks, square 1fr cells filling the content column at any viewport (no fixed cell size, no horizontal scroll); caption ends align with grid edges.
+- Container tightened from 72rem to 66rem (rail 19 + gap 4 + content 40 + padding 3) — no dead column right of the content.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
