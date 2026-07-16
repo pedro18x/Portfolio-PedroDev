@@ -150,6 +150,20 @@ The ID-card-that-opens was retired: too close to its reference (ttiago.com). The
 - Activity calendar is fluid: 26 weeks, square 1fr cells filling the content column at any viewport (no fixed cell size, no horizontal scroll); caption ends align with grid edges.
 - Container tightened from 72rem to 66rem (rail 19 + gap 4 + content 40 + padding 3) — no dead column right of the content.
 
+## v7: monogram rail (2026-07-16)
+
+- **Scroll-spy nav removed** (user: pointless on a page readable with almost no scrolling). The `.rnav` styles, `sections` prop, and `SECTIONS` list are gone; deep-link ids on sections remain.
+- **The rail's empty middle now holds a 3D dithered "pe" monogram** (`components/monogram.tsx`, zero dependencies, ~200 lines of canvas). The glyph is sampled from an offscreen canvas in the real Geist (after `document.fonts.ready`), extruded into 4 depth layers (~3k points), rotated/projected by hand, and shaded by Bayer 4x4 ordered dithering deciding which points draw, so the aesthetic matches the contribution calendar.
+- **Physics (apple-design pointer rules)**: idle auto-rotation (0.0045 rad/frame); pointer drag tracks 1:1 with capture; release hands off the gesture velocity (clamped, decayed by friction back into the idle spin; a stalled pointer hands off nothing); vertical tilt is clamped and springs back. Grabbing mid-coast retargets instantly (interruptible).
+- **Budgets**: reduced-motion = static frame, drag still works (user-initiated motion); loop pauses when the tab is hidden AND when the stage is offscreen (IntersectionObserver; the stage is display:none on mobile); depth shades come from a precomputed 32-entry rgba table (no per-point string allocation); first paint fades in over 200ms to mask the post-fonts.ready pop; `touch-action: pan-y` keeps vertical scroll native on touch.
+- **Rail footer gains the now-block**: LOCAL TIME (live seconds clock, America/Fortaleza, empty on the server and filled after mount) and NOW ("Building Maestro"), mono uppercase, above socials/meta.
+
+## Whole-site animation audit (2026-07-16, review-animations + improve-animations bar)
+
+Applied: `ui/button.tsx` `transition-all` replaced with an explicit property list (the skill's hard trigger; `all` animates unintended properties off-GPU). Monogram perf items above came out of the same pass.
+
+Vetted and accepted as-is (documented so future reviews don't re-litigate): accordion `transition-[height]` (canonical Base UI height-var pattern; content reflows regardless); fnav 454ms spring-gentle entrance (drawer-class scroll response, interruptible, reduced-motion fades); `.reveal` 400ms page-load rise (once per visit, within the 200-500ms budget); tw-animate keyframes on tooltip/hover-card entrances (occasional frequency, reduced-motion neutralized in globals); Reveal's motion `y` shorthand (once-per-load springs on a light page; not worth the churn); submit button press already asymmetric (100ms ease-out down, 272ms spring release).
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
