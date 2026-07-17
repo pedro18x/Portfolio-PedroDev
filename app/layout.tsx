@@ -1,55 +1,50 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-import { Providers } from "./providers";
+import { site } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
-
-const title = "Pedro Ernesto | Desenvolvedor Full Stack";
-const description = "Portfólio de Pedro Ernesto, um desenvolvedor Full Stack apaixonado por criar soluções inovadoras e eficientes.";
-const url = "https://pedro-dev-five.vercel.app/";
-const imageUrl = `${url}og-image.png`;
+const title = `${site.name} | ${site.role}`;
 
 /**
  * Metadados para SEO e compartilhamento em redes sociais.
- * A propriedade `title.template` permite que páginas filhas personalizem o título,
- * inserindo seu próprio valor no lugar de `%s`.
+ * O favicon vem de `app/icon.svg` (convenção do App Router).
  */
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
-    template: '%s | Pedro Ernesto',
+    template: `%s | ${site.name}`,
     default: title,
   },
-  description,
+  description: site.description,
   openGraph: {
     title,
-    description,
-    url,
-    siteName: "Portfólio Pedro Ernesto",
+    description: site.description,
+    url: site.url,
+    siteName: `${site.name} Portfolio`,
     images: [
       {
-        url: imageUrl,
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Pedro Ernesto - Desenvolvedor Full Stack",
+        alt: `${site.name}, ${site.role}`,
       },
     ],
-    locale: "pt_BR",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title,
-    description,
-    images: [imageUrl],
+    description: site.description,
+    images: ["/og-image.png"],
   },
 };
 
 /**
  * Layout raiz da aplicação.
- * Envolve todo o conteúdo com os provedores de contexto necessários e define a estrutura HTML base.
- * @param {object} props - As propriedades do componentes. 
- * @param {React.ReactNode} props.children - As páginas e outros layouts a serem renderizados.
+ * @param {object} props - As propriedades do componente.
+ * @param {React.ReactNode} props.children - As páginas a serem renderizadas.
  */
 export default function RootLayout({
   children,
@@ -57,10 +52,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.className}`}>
-        <Providers>{children}</Providers>
+    <html lang="en" className={cn("font-sans", GeistSans.variable)}>
+      <body className="text-base leading-[1.6]">
+        {/* Sem JS os reveals do motion nasceriam com opacity:0 inline e a
+            página ficaria em branco abaixo do rail; aqui eles falham
+            visíveis (o hook data-reveal já existe para o print) */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important;filter:none!important}`}</style>
+        </noscript>
+        {children}
       </body>
     </html>
   );
-} 
+}
