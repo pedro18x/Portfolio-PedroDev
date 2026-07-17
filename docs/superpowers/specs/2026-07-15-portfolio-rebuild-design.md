@@ -210,6 +210,12 @@ Shipped (`components/proof-pull.tsx`, ~640 lines, zero dependencies; CSS in glob
 
 Verified (production build + Playwright): peek release springs home pixel-clean (clip removed, scroll restored); commit release opens (body.plate-view, aria-pressed true); stir wake + splash render; corner and Escape both return; keyboard Enter/Escape toggle; scrolled peel registers correctly (clip offset by locked scrollY); reduced-motion click toggles the static field; mobile 390px peel + spring-back; zero console errors on all runs.
 
+### v9.1 (2026-07-17): Emil-bar motion audit of Proof Pull
+
+Pedro asked for the review-animations/improve-animations pass on the peel. Applied (all verified with production-build gesture probes): (1) the dog-ear hover scale/shadow is now gated behind `@media (hover: hover) and (pointer: fine)` (touch taps were leaving sticky hover at 1.33x; `:focus-visible` stays ungated); (2) the return spring is interruptible — the dog-ear reappears the moment the spring starts, and re-grabbing it cancels the rAF and resumes the drag with no teardown, retargeting the fold to the pointer (same rule as the monogram's coast); (3) momentum release per the gesture standards — smoothed radial velocity (px/ms, 120ms staleness cutoff) now decides alongside the distance line: an outward flick > 0.7 px/ms opens even below 40% of the diagonal (min 90px lifted), a strong inward yank (< -0.5) vetoes an over-the-line open, the return spring inherits the hand's inward momentum (capped 2200 px/s), and a hard flick whips the open faster (capped 3200 px/s).
+
+Vetted and accepted as-is (do not re-litigate): `filter: drop-shadow` transition on the 24px dog-ear svg (paint cost trivial, the deepening shadow sells the lift); the 120ms opacity crossfade on the keyboard Enter toggle (rare action, opacity is the RM-safe channel, an instant full-viewport flip would jar); `proof-settle` keyframes restarting from zero (terminal landing pop after a deliberate gesture, not rapidly re-triggerable); clip-path on `main` during the peel (it IS the effect, gesture-scoped behind `will-change`, zero idle cost). Press/release asymmetry and the reduced-motion triad were already correct.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
