@@ -216,6 +216,10 @@ Pedro asked for the review-animations/improve-animations pass on the peel. Appli
 
 Vetted and accepted as-is (do not re-litigate): `filter: drop-shadow` transition on the 24px dog-ear svg (paint cost trivial, the deepening shadow sells the lift); the 120ms opacity crossfade on the keyboard Enter toggle (rare action, opacity is the RM-safe channel, an instant full-viewport flip would jar); `proof-settle` keyframes restarting from zero (terminal landing pop after a deliberate gesture, not rapidly re-triggerable); clip-path on `main` during the peel (it IS the effect, gesture-scoped behind `will-change`, zero idle cost). Press/release asymmetry and the reduced-motion triad were already correct.
 
+### v9.2 (2026-07-17): press-and-hold fix (grab dead zone)
+
+Pedro's repro: click and hold the dog-ear without moving and the layout "bugs". Root cause: the press point inside the 44px hit target sits ~30px from the true corner, so the fold started at d~30 on pointerdown; a fold line at that distance, extended across the whole document, lifted a huge diagonal swath whose reflected flap covered the entire bottom edge of the viewport as a near-white strip with a shadow: reads as broken layout when nothing is moving. Fix is physical: a grab dead zone (grab0 = press offset, subtracted from raw travel), so pressing pinches the corner and the fold is born only once the hand travels. The dog-ear now stays visible until a real fold exists (d > 8) instead of vanishing on press, so a plain click yields only the settle-pop wink. Also added scrollbar-width compensation to the scroll lock (padding-right equal to the removed classic scrollbar; zero on overlay scrollbars) so locking never reflows the centered column. Verified: hold shows a pixel-identical page with no clip and the dog-ear present; drag, flick, commit-open, and Escape flows unchanged; zero console errors.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
