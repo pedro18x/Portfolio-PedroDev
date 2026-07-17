@@ -190,6 +190,10 @@ Verified (production build + Playwright): odometer 000→783 synced to sweep; to
 
 Kitsch-control rules carried from the synthesis: no grain, no crop marks, no print jargon in copy; sweep once per session; dot radii capped; the plate is the page's only canvas moment besides the monogram it extends; spotlight alpha capped at 4.5%; no autonomous motion added.
 
+### v8.1 (2026-07-17): accordion quieted, ink rows retired
+
+Pedro's calls after living with v8: the chevrons, the bullet markers, the accordion gutter rule, and the ink-row hover shade all read as too much. Changes: the expand indicator is now a hairline "+" whose vertical bar spring-rotates 90 degrees into a "-" on open (PlusMinus in experience-list.tsx, softline to ink on hover, snap under reduced motion); expanded details are clean unmarked paragraphs one size-step down (0.875rem) with no rule; InkRow (inverted spotlight) is deleted everywhere (component, CSS, all row usages) along with .exp-rule. The rest of v8 (print plate, odometers, weight-echo, hold-to-send, shock bridge) stands. Content: the unannounced-product line was removed from site copy entirely (even vague phrasing); the eval bullet stays in-progress tense ("Building").
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
