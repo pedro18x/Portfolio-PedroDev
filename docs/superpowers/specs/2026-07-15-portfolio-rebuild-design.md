@@ -220,6 +220,30 @@ Vetted and accepted as-is (do not re-litigate): `filter: drop-shadow` transition
 
 Pedro's repro: click and hold the dog-ear without moving and the layout "bugs". Root cause: the press point inside the 44px hit target sits ~30px from the true corner, so the fold started at d~30 on pointerdown; a fold line at that distance, extended across the whole document, lifted a huge diagonal swath whose reflected flap covered the entire bottom edge of the viewport as a near-white strip with a shadow: reads as broken layout when nothing is moving. Fix is physical: a grab dead zone (grab0 = press offset, subtracted from raw travel), so pressing pinches the corner and the fold is born only once the hand travels. The dog-ear now stays visible until a real fold exists (d > 8) instead of vanishing on press, so a plain click yields only the settle-pop wink. Also added scrollbar-width compensation to the scroll lock (padding-right equal to the removed classic scrollbar; zero on overlay scrollbars) so locking never reflows the centered column. Verified: hold shows a pixel-identical page with no clip and the dog-ear present; drag, flick, commit-open, and Escape flows unchanged; zero console errors.
 
+### v9.3 (2026-07-17): five-lens bug hunt, 17 distinct fixes
+
+Pedro asked for an arbitrary bug review with 5 agents. Ran a workflow: five finder lenses (gesture/canvas, React/Next, CSS/Tailwind v4, a11y/content, forms/API), 29 findings, each adversarially verified by its own agent against the code and this spec; 27 confirmed (collapsing to 17 distinct), 2 refuted. All 17 fixed and re-verified against the production build:
+
+- **Plate view was a keyboard/AT trap** (found by 3 lenses independently): opacity 0 left the whole invisible page tabbable and exposed to screen readers. The sheet now gets `inert` + `aria-hidden` while the field is open, removed on every exit path.
+- **Hold-to-send was impossible for VoiceOver/Voice Control/Switch Control** (synthesized taps can never hold 700ms). New door: a second activation within 2s submits; hint copy is now "Hold to send, or press again."
+- **The contribution plate clipped the NEWEST days** (incl. today) off-canvas whenever the 182-day window did not start on a Sunday (6 of 7 weeks): the window now drops leading days to align to Sunday; firstWeekday plumbing removed.
+- **sessionStorage could crash the whole page** for cookies-blocked visitors (getter throws SecurityError in an effect; no error boundary existed): storage access is now try/catch-wrapped, and a minimal site-styled `app/error.tsx` boundary was added.
+- **Mid-sweep live-data swap froze the plate half-printed** (effect re-run took the `already` branch with stale progress): the branch now resets progress/sweeping and redraws; it also no longer stomps the 480ms live roll (the old odometer-snap nicety is fixed by the same change).
+- **The entire .field-input design was dead CSS**: inside `@layer components` it lost to the shadcn Input utilities (utilities layer wins); moved unlayered. Contact fields now actually render the iOS-style fill.
+- **Empty ACTIVITY heading on GitHub outage**: the `!== undefined` guard was dead (getContributions returns null); the Section wrapper moved inside ActivityGraph so the whole section hides while the client recovery path stays mounted.
+- **Reduced-motion was sampled once at mount** in monogram, rolling-digits, contact-form, and the proof-pull field (frozen field swallowed splats if RM turned off mid-session): all four now subscribe to the media query.
+- **Peel robustness**: window blur mid-drag springs the sheet home (no more scroll-lock orphan); scrollbar compensation now also shifts plate/flap/dog-ear via `--proof-sbc` and the fold geometry uses the compensated corner (no dark strip on classic-scrollbar systems).
+- **Rail on short viewports**: `md:h-screen` became `md:h-dvh md:overflow-y-auto` so the rail footer cannot be clipped unreachable.
+- **Print**: dog-ear/flap/plate hidden (fixed elements repeat on every printed page); `.reveal` neutralized like `[data-reveal]`.
+- **No-JS blank page**: motion reveals serialize `opacity:0` inline; a `<noscript>` override in the layout fails them visible.
+- **API hardening** (`/api/contact`): server-side validation mirroring the client (types, trim, email regex, length caps 200/320/5000), per-IP in-memory rate limit (5 per 10 min), generic error bodies (no more raw Resend/internal `details` leak), `replyTo` set to the visitor (Gmail reply now reaches them), sender name fixed from leftover "Acme".
+- **Email formatting**: message renders with `pre-wrap` so paragraphs survive.
+- **GitHub fetches** get `AbortSignal.timeout(5000)` so a stalled GitHub cannot pin serverless invocations.
+- **Copy-email announces "Email address copied"** via a polite live region (the visual morph was silent to AT).
+- **OG image alt** em dash replaced with a comma (last user-facing em dash).
+
+Verified: field-input computed styles live, last-column tooltip returns a current-week date, plate-view Tab confinement on and off, double-activation submit path, all five peel gesture flows unchanged, hostile/non-JSON API payloads get clean 400s, zero console errors.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
