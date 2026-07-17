@@ -74,8 +74,13 @@ interface Pt {
   onFold?: boolean;
 }
 
-/** Sutherland–Hodgman contra o semiplano dot(p−M, n) ≥ 0 (ou ≤ 0). */
-function clipHalfplane(poly: Pt[], M: Pt, n: Pt, keepPositive: boolean): Pt[] {
+/**
+ * Sutherland–Hodgman contra o semiplano dot(p−M, n) ≥ 0 (ou ≤ 0).
+ * `markFold` marca vértices novos como pertencentes ao vinco: só o recorte
+ * da DOBRA marca; os recortes da caixa local não (o vinco desenhado com
+ * bojo é a aresta entre dois vértices marcados consecutivos).
+ */
+function clipHalfplane(poly: Pt[], M: Pt, n: Pt, keepPositive: boolean, markFold = false): Pt[] {
   const out: Pt[] = [];
   for (let i = 0; i < poly.length; i++) {
     const a = poly[i];
@@ -90,7 +95,7 @@ function clipHalfplane(poly: Pt[], M: Pt, n: Pt, keepPositive: boolean): Pt[] {
       out.push({
         x: a.x + (b.x - a.x) * t,
         y: a.y + (b.y - a.y) * t,
-        onFold: true,
+        onFold: markFold,
       });
     }
   }
@@ -406,6 +411,12 @@ export function ProofPull() {
       }
     };
 
+    // clip-path: path(evenodd) permite recortar "retângulo menos mordida",
+    // essencial para a dobra LOCAL; sem suporte, cai na dobra de plano
+    // inteiro (funcional, só menos bonita em d pequeno)
+    const PATH_CLIP =
+      typeof CSS !== "undefined" && CSS.supports("clip-path", 'path("M 0 0 H 1 V 1 Z")');
+
     const render = (): number => {
       if (d < 2) {
         sheet.style.clipPath = "none";
@@ -417,18 +428,42 @@ export function ProofPull() {
       const n = { x: -dir.x, y: -dir.y }; // aponta para o lado levantado
       const docPoly: Pt[] = [
         { x: 0, y: -sy0 },
-        { x: window.innerWidth, y: -sy0 },
-        { x: window.innerWidth, y: docH - sy0 },
+        { x: C.x, y: -sy0 },
+        { x: C.x, y: docH - sy0 },
         { x: 0, y: docH - sy0 },
       ];
-      const lifted = clipHalfplane(docPoly, M, n, true);
-      const keep = clipHalfplane(docPoly, M, n, false);
-      sheet.style.clipPath =
-        keep.length >= 3
-          ? `polygon(${keep
-              .map((p) => `${p.x.toFixed(2)}px ${(p.y + sy0).toFixed(2)}px`)
-              .join(", ")})`
-          : "polygon(0px 0px, 0px 0px, 0px 0px)";
+      const keep = clipHalfplane(docPoly, M, n, false); // sinal de término
+      let lifted = clipHalfplane(docPoly, M, n, true, true);
+
+      if (PATH_CLIP) {
+        // Dobra LOCAL: só um retalho de canto levanta, como papel de
+        // verdade. Sem esta caixa, a linha de dobra estendida pelo
+        // documento inteiro faz um arrasto de 80px cobrir metade da
+        // viewport com verso de papel. A caixa cresce com d: em pulls
+        // fundos vira a dobra de folha inteira do espetáculo.
+        const L = 4 * d + 80;
+        lifted = clipHalfplane(lifted, { x: C.x - L, y: 0 }, { x: 1, y: 0 }, true);
+        lifted = clipHalfplane(lifted, { x: 0, y: C.y - L }, { x: 0, y: 1 }, true);
+        if (keep.length < 3) {
+          sheet.style.clipPath = "polygon(0px 0px, 0px 0px, 0px 0px)";
+        } else if (lifted.length >= 3) {
+          const bite =
+            lifted
+              .map((p, i) => `${i ? "L" : "M"} ${p.x.toFixed(2)} ${(p.y + sy0).toFixed(2)}`)
+              .join(" ") + " Z";
+          sheet.style.clipPath = `path(evenodd, "M 0 0 H ${C.x.toFixed(2)} V ${docH.toFixed(2)} H 0 Z ${bite}")`;
+        } else {
+          sheet.style.clipPath = "none";
+        }
+      } else {
+        sheet.style.clipPath =
+          keep.length >= 3
+            ? `polygon(${keep
+                .map((p) => `${p.x.toFixed(2)}px ${(p.y + sy0).toFixed(2)}px`)
+                .join(", ")})`
+            : "polygon(0px 0px, 0px 0px, 0px 0px)";
+      }
+
       const flapPoly = lifted.map((p) => reflect(p, M, n));
       const r = Math.min(Math.max(d / CONFIG.ROLL_DIV, CONFIG.ROLL_MIN), CONFIG.ROLL_MAX);
       drawFlap(lifted, flapPoly, M, n, r);
@@ -444,7 +479,8 @@ export function ProofPull() {
       // já dobrava ~30px (offset da pegada na área de 44px) e a linha de
       // dobra, estendida pelo documento inteiro, cobria a base da viewport
       // com uma tira de "verso de papel" — lia-se como layout quebrado.
-      const raw = Math.max(0, Math.hypot(vx, vy) - grab0);
+      const rawAbs = Math.hypot(vx, vy);
+      const raw = Math.max(0, rawAbs - grab0);
       const now = performance.now();
       if (lastMoveT > 0) {
         const inst = (raw - lastRaw) / Math.max(now - lastMoveT, 1);
@@ -452,7 +488,11 @@ export function ProofPull() {
       }
       lastMoveT = now;
       lastRaw = raw;
-      if (raw > 4) dir = { x: vx / raw, y: vy / raw };
+      // dir SEMPRE normalizado pela magnitude REAL do vetor: dividir pela
+      // efetiva (com a folga descontada) gerava |dir| >> 1 no início do
+      // arrasto e explodia toda a geometria da dobra (reflect() assume n
+      // unitário) — com movimentos reais de 1-2px isso era o arrasto inteiro
+      if (rawAbs > 4) dir = { x: vx / rawAbs, y: vy / rawAbs };
       const D = CONFIG.BAND_START * diag;
       d = raw > D ? D + (raw - D) * CONFIG.BAND_FACTOR : raw;
       // a orelha só some quando a dobra existe de fato

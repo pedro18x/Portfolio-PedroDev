@@ -244,6 +244,10 @@ Pedro asked for an arbitrary bug review with 5 agents. Ran a workflow: five find
 
 Verified: field-input computed styles live, last-column tooltip returns a current-week date, plate-view Tab confinement on and off, double-activation submit path, all five peel gesture flows unchanged, hostile/non-JSON API payloads get clean 400s, zero console errors.
 
+### v9.4 (2026-07-17): drag hotfix — unit vector + localized curl
+
+Pedro on production: "the drag is buggy as hell". Two defects, both invisible to the synthetic probes (Playwright teleports the pointer 20-40px per step; real hands move 1-2px per event): (1) since the v9.2 dead zone, `dir` was normalized by the EFFECTIVE drag distance (grab offset subtracted) instead of the true pointer distance, so early in every real drag |dir| reached 5-6x and the fold geometry exploded (reflect() assumes a unit normal); fixed by normalizing with the raw magnitude. (2) Even with correct math, the straight fold line inherently spans the whole document, so an 80px pull buried half the viewport under paper-back. The fold is now LOCAL: the lifted region is clamped to a corner box of side 4d+80 (three successive convex clips; only the fold clip marks crease vertices), and the page clip becomes rectangle-minus-bite via `clip-path: path(evenodd, ...)` (support-checked; browsers without path() fall back to the old full-plane polygon). Small pulls curl just the corner like real paper; as d grows the box exceeds the viewport and the geometry converges to the full-sheet spectacle fold. Reproduced with 1-2px-per-event probes before the fix and verified clean after; commit/flick/spring/peek flows unchanged, zero console errors.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
