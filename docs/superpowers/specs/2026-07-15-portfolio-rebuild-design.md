@@ -172,6 +172,24 @@ Applied: `ui/button.tsx` `transition-all` replaced with an explicit property lis
 
 Vetted and accepted as-is (documented so future reviews don't re-litigate): accordion `transition-[height]` (canonical Base UI height-var pattern; content reflows regardless); fnav 454ms spring-gentle entrance (drawer-class scroll response, interruptible, reduced-motion fades); `.reveal` 400ms page-load rise (once per visit, within the 200-500ms budget); tw-animate keyframes on tooltip/hover-card entrances (occasional frequency, reduced-motion neutralized in globals); Reveal's motion `y` shorthand (once-per-load springs on a light page; not worth the churn); submit button press already asymmetric (100ms ease-out down, 272ms spring release).
 
+## v8: ink under pressure (2026-07-16, Plan B "Showpiece" of the component tournament)
+
+Pedro's brief after three ultracode tournaments: "original" means VISUALLY striking (cool components/interactions), never narrative concepts (two concept rounds rejected; see memory). Round three mined the shadcn MCP registries (@react-bits, @shadcn) through 8 visual-domain generators + 24 judges; all directions converged on one voice: **black ink as physical material responding to the hand**. Pedro chose Plan B (showpiece). Palette stays frozen white/ink/gray, light-only, zero new packages (registry items verified via MCP; gsap-dependent ones reimplemented on the site's motion/spring tokens).
+
+Shipped:
+- **The Print Plate** (`components/activity-graph.tsx`, full rewrite): the GitHub year as a halftone press plate on canvas. Each day is a circular ink dot whose RADIUS encodes the count (geometry, not opacity; counts parsed from GraphQL field or scrape label). Once per session, on first scroll into view, a 1px printhead sweeps 1.1s and dots materialize column by column with a small pop; a 38px SF Mono odometer total rolls 000 to the real total in sync. Dots swell with spring lag within 70px of the cursor (@react-bits/DotGrid proximity model, no gsap). Single delegated tooltip now driven by cell math over the canvas. Stat rail beneath: LONGEST STREAK / BUSIEST DAY / ACTIVE WEEKS, real values from the same payload, count up once in view; hidden if counts unavailable. Canvas aria-hidden + sr-only summary. Reduced motion: plate pre-printed, counters static, tooltip intact.
+- **Shock bridge**: clicking the "pe" monogram dispatches `pe-ink` (viewport coords); if the plate is on screen it ripples from the same point. Two plates, one ink.
+- **RollingDigits** (`components/rolling-digits.tsx`): odometer primitive (the @react-bits/Counter pattern on site tokens). Used by the rail clock (LOCAL TIME now rolls per second) and the plate total. RM: plain text.
+- **Weight-echo** (`.wecho`/`.wecho-big` in globals): labels and the fnav links gain ink mass on hover via Geist's variable wght axis; the rail masthead is now a two-line lockup (2.125rem) with a bigger echo (600 to 780).
+- **InkRow** (`components/ink-row.tsx` + `.ink-row` CSS): inverted spotlight; ink gathers under the cursor (4.5% alpha radial via --mx/--my), rows press down 0.5px on :active. Applied to work accordion rows, education/volunteer timeline rows, project rows.
+- **Margin rule draw** (`.exp-rule`): a 1px rule draws top-down along the accordion bullet gutter with the open spring; RM: fades.
+- **Magnet extended** to the accordion chevron.
+- **Hold-to-send** (`contact-form.tsx`): pointer-down floods the submit with ink via clip-path (700ms); early release rubber-bands back and teaches "Hold to send."; a completed hold submits. Keyboard clicks (detail 0) and reduced motion submit with a plain click; pointer clicks alone never submit.
+
+Verified (production build + Playwright): odometer 000→783 synced to sweep; tooltip by cell math; shock-bridge ripple; abort hint; full-hold submits (stubbed API); keyboard Enter yields the 3 validation errors; second visit in session skips the sweep; RM plate pre-printed + plain click sends; zero em dashes/overflow/console errors on desktop + mobile.
+
+Kitsch-control rules carried from the synthesis: no grain, no crop marks, no print jargon in copy; sweep once per session; dot radii capped; the plate is the page's only canvas moment besides the monogram it extends; spotlight alpha capped at 4.5%; no autonomous motion added.
+
 ## Out of scope
 
 - New resume PDF content (separate task; footer link added when it exists).
