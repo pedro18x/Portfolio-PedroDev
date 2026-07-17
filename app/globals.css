@@ -1,3 +1,684 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities; 
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tema: tokens semânticos do shadcn + tokens próprios do site */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-faint: #6e6e6e;
+  --color-softline: #bbbbbb;
+  --container-page: 42rem;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ease-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Site claro por decisão de design (spec 2026-07-15) — sem variante escura. */
+:root {
+  color-scheme: light;
+  --ease-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  /*
+   * Mola criticamente amortecida (apple-design §4: damping 1.0, sem overshoot),
+   * amostrada como linear(). A curva normalizada é a mesma; a "response" da
+   * Apple vive na duração: 272ms ≈ response 0.18, 454ms ≈ response 0.30.
+   */
+  --spring: linear(
+    0,
+    0.0987,
+    0.2847,
+    0.4697,
+    0.6232,
+    0.74,
+    0.8244,
+    0.8833,
+    0.9234,
+    0.9503,
+    0.968,
+    0.9795,
+    0.987,
+    0.9918,
+    0.9948,
+    0.9967,
+    0.998,
+    0.9987,
+    1
+  );
+  --spring-snappy: 272ms;
+  --spring-gentle: 454ms;
+}
+
+@layer base {
+  html {
+    background: #ffffff;
+    @apply font-sans;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply antialiased bg-background text-foreground;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background: var(--foreground);
+    color: var(--background);
+  }
+
+  /*
+   * Links: sublinhado estático em softline com um "desenho" em currentColor
+   * que cresce da esquerda no hover (duas camadas de background-image).
+   * Pressionar reduz a opacidade instantaneamente (feedback no pointer-down)
+   * e recupera com easing. Links utilitários usam .plain para não receber
+   * o sublinhado (ícones, marcas).
+   */
+  a:not(.plain) {
+    color: inherit;
+    text-decoration: none;
+    background-image:
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(var(--color-softline), var(--color-softline));
+    background-size:
+      0% 1px,
+      100% 1px;
+    background-position:
+      0 100%,
+      0 100%;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding-bottom: 2px;
+    transition: opacity 150ms ease;
+  }
+  a.plain {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:active {
+    opacity: 0.55;
+    transition-duration: 0ms;
+  }
+  /* Feedback de pressão nos "pressáveis" de texto que não são links
+     (toggle do cartão, chip ⌘K, copy) — mesma linguagem dos links */
+  .press:active {
+    opacity: 0.55;
+    transition-duration: 0ms;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    a:not(.plain) {
+      transition:
+        background-size 220ms var(--ease-strong),
+        opacity 150ms ease;
+    }
+    a:not(.plain):hover {
+      background-size:
+        100% 1px,
+        100% 1px;
+    }
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .theme {
+    --font-heading: var(--font-geist-sans);
+    --font-sans: var(--font-geist-sans);
+  }
+  /* Valores mapeados para a paleta do site (spec v2 — claro, quase monocromático) */
+  :root {
+    --background: #ffffff;
+    --foreground: #111111;
+    --card: #ffffff;
+    --card-foreground: #111111;
+    --popover: #ffffff;
+    --popover-foreground: #111111;
+    --primary: #111111;
+    --primary-foreground: #ffffff;
+    --secondary: #f5f5f5;
+    --secondary-foreground: #111111;
+    --muted: #f5f5f5;
+    --muted-foreground: #595959;
+    --accent: #f5f5f5;
+    --accent-foreground: #111111;
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: #e5e5e5;
+    --input: #e5e5e5;
+    --ring: #111111;
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+  }
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+  }
+  * {
+    @apply border-border;
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+}
+
+@layer components {
+  /* Entrada única por carregamento — o único momento orquestrado da página */
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(2px);
+    animation: rise 400ms var(--ease-strong) forwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+
+  /* Crossfade mascarado por blur para trocas de texto (técnica emil-design-eng) */
+  .morphable {
+    display: inline-block;
+    transition:
+      opacity 100ms ease,
+      filter 100ms ease;
+  }
+  .morphable.morphing {
+    opacity: 0.5;
+    filter: blur(2px);
+  }
+
+  /*
+   * Eco de peso (plano "ink under pressure"): rótulos ganham massa de tinta
+   * no hover via eixo variável da Geist — o verbo do site em escala de fio.
+   */
+  .wecho {
+    font-variation-settings: "wght" 500;
+    transition: font-variation-settings var(--spring-snappy) var(--spring);
+  }
+  .wecho-big {
+    font-variation-settings: "wght" 600;
+    transition: font-variation-settings var(--spring-gentle) var(--spring);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wecho:hover {
+      font-variation-settings: "wght" 640;
+    }
+    .wecho-big:hover {
+      font-variation-settings: "wght" 780;
+    }
+  }
+
+  /* Odômetro tipográfico (rolling-digits.tsx) */
+  .odo-track {
+    display: inline-flex;
+    overflow: hidden;
+    height: 1em;
+    line-height: 1;
+  }
+  .odo-col {
+    display: inline-block;
+    transition-property: transform;
+    transition-timing-function: var(--spring);
+    will-change: transform;
+  }
+  .odo-col > span {
+    display: block;
+    height: 1em;
+  }
+
+  /*
+   * Segurar para enviar: a tinta inunda o botão enquanto o ponteiro está
+   * pressionado (clip-path); soltar cedo volta com a mola. Teclado e
+   * movimento reduzido enviam com clique simples (sem inundação).
+   */
+  .holdfill {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border-radius: inherit;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 250ms var(--spring);
+    pointer-events: none;
+  }
+  [data-holding="true"] .holdfill {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 700ms linear;
+  }
+
+  /* A seta ↗ dos links externos avança na direção do gesto ao passar o mouse */
+  .ext-arrow {
+    display: inline-block;
+    transition: transform var(--spring-snappy) var(--spring);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .work-row:hover .ext-arrow {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  /*
+   * Barra de navegação flutuante (apple-design §12): material translúcido que
+   * surge quando o cabeçalho da página sai de vista. Entra e sai pelo mesmo
+   * caminho (§7) com a mola suave; transições CSS a mantêm interrompível.
+   * `visibility` é adiada na saída para que links ocultos não recebam Tab.
+   */
+  .fnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    /* Material mais denso (0.82): o conteúdo passa por baixo sem virar
+       "mancha" legível sob o wordmark em capturas estáticas */
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform var(--spring-gentle) var(--spring),
+      opacity var(--spring-gentle) var(--spring),
+      visibility 0s linear var(--spring-gentle);
+  }
+  .fnav[data-visible="true"] {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      transform var(--spring-gentle) var(--spring),
+      opacity var(--spring-gentle) var(--spring),
+      visibility 0s;
+  }
+  /* Vibrância: peso e tracking levemente maiores para legibilidade no material */
+  .fnav-inner {
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  /*
+   * Proof Pull (proof-pull.tsx): a folha do site descola da "chapa" pela
+   * orelha no canto inferior direito. A página inteira (o <main>) vira a
+   * folha: recebe clip-path durante o arrasto e some quando a folha abre.
+   * Sem transform/contain na folha: a fnav é fixed dentro dela e um
+   * ancestral transformado a re-ancoraria no documento.
+   */
+  .proof-sheet {
+    transition: opacity 120ms linear;
+  }
+  .proof-sheet.is-peeling {
+    will-change: clip-path;
+  }
+  .proof-sheet.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  body.plate-view {
+    touch-action: none;
+  }
+  .proof-plate {
+    position: fixed;
+    /* --proof-sbc: compensação da barra de rolagem clássica durante o
+       travamento do scroll — chapa, aba e orelha encolhem junto da folha */
+    inset: 0 var(--proof-sbc, 0px) 0 0;
+    z-index: 0;
+    overflow: hidden;
+    visibility: hidden;
+    background: #0a0a0a;
+  }
+  .proof-plate[data-on="true"] {
+    visibility: visible;
+  }
+  .proof-sheen {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.04) 50%,
+      transparent 60%
+    );
+  }
+  .proof-flap {
+    position: fixed;
+    inset: 0 var(--proof-sbc, 0px) 0 0;
+    z-index: 60;
+    pointer-events: none;
+    display: none;
+    transition: opacity 150ms linear;
+  }
+  .proof-flap[data-on="true"] {
+    display: block;
+  }
+  .proof-dogear {
+    position: fixed;
+    right: var(--proof-sbc, 0px);
+    bottom: 0;
+    z-index: 70;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: grab;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .proof-dogear:active {
+    cursor: grabbing;
+  }
+  .proof-dogear:focus-visible {
+    outline-offset: -2px;
+  }
+  body.plate-view .proof-dogear:focus-visible {
+    outline-color: #ffffff;
+  }
+  .proof-dogear svg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    transform-origin: 100% 100%;
+    transition:
+      transform var(--spring-snappy) var(--spring),
+      filter var(--spring-snappy) var(--spring);
+    filter: drop-shadow(-1px -1px 2px rgba(0, 0, 0, 0.1));
+  }
+  /* Hover atrás do gate de ponteiro fino: no toque, o tap dispararia um
+     hover falso e deixaria o canto preso em 1.33 depois do gesto */
+  @media (hover: hover) and (pointer: fine) {
+    .proof-dogear:hover svg {
+      transform: scale(1.33);
+      filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.18));
+    }
+  }
+  .proof-dogear:focus-visible svg {
+    transform: scale(1.33);
+    filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.18));
+  }
+  .proof-dogear[data-peeling="true"] {
+    visibility: hidden;
+  }
+  .proof-dogear[data-open="true"] {
+    cursor: pointer;
+  }
+  .proof-tri-plate {
+    fill: #0a0a0a;
+  }
+  .proof-tri-flap {
+    fill: #ffffff;
+    stroke: var(--color-softline);
+    stroke-width: 1;
+  }
+  .proof-dogear[data-open="true"] .proof-tri-plate {
+    fill: #f0f0f0;
+  }
+  .proof-dogear[data-open="true"] .proof-tri-flap {
+    fill: #0a0a0a;
+    stroke: #3a3a3a;
+  }
+  .proof-settle svg {
+    animation: proof-settle 260ms var(--spring);
+  }
+}
+
+@keyframes proof-settle {
+  0% {
+    transform: scale(1.55);
+  }
+  45% {
+    transform: scale(0.88);
+  }
+  75% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/*
+ * Campos do formulário: preenchimento discreto estilo iOS; no foco a
+ * superfície clareia e ganha um halo monocromático suave.
+ * FORA de @layer de propósito: dentro de "components" estas regras perdiam
+ * para as utilities do shadcn Input (a ordem theme→base→components→utilities
+ * dá a última palavra às utilities); CSS sem camada vence todas.
+ */
+.field-input {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  background: color-mix(in srgb, var(--muted) 72%, transparent);
+  padding: 0.625rem 0.875rem;
+  box-shadow: none;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+.field-input:focus,
+.field-input:focus-visible {
+  outline: none;
+  background: var(--background);
+  border-color: var(--color-softline);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--foreground) 6%, transparent);
+}
+.field-input[aria-invalid="true"] {
+  border-color: color-mix(in srgb, var(--destructive) 55%, transparent);
+}
+.field-input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 8%, transparent);
+}
+
+/* Check de sucesso do formulário: traço que se desenha (uma vez, mola) */
+.check-draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-check 450ms var(--spring) 80ms forwards;
+}
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .check-draw path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-only {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Impressão / PDF: conteúdo sempre visível — revelações neutralizadas
+   (os estilos inline do motion perdem para !important). Cromo interativo
+   fixo (orelha/aba/chapa) não pertence ao papel: elementos fixed repetem
+   em TODA página impressa. */
+@media print {
+  .fnav,
+  .proof-dogear,
+  .proof-flap,
+  .proof-plate {
+    display: none !important;
+  }
+  [data-reveal],
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}
+
+/* Primitivas tw-animate (tooltip, hover-card, dialog, acordeão) sob
+   movimento reduzido: fades sobrevivem, deslocamento e zoom não. */
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="tooltip-content"],
+  [data-slot="hover-card-content"] {
+    --tw-enter-translate-x: 0;
+    --tw-enter-translate-y: 0;
+    --tw-enter-scale: 1;
+    --tw-exit-translate-x: 0;
+    --tw-exit-translate-y: 0;
+    --tw-exit-scale: 1;
+  }
+  [data-slot="accordion-content"] > div {
+    transition-duration: 1ms;
+  }
+}
+
+/* Movimento reduzido: mantém feedback de opacidade/cor, remove deslocamentos */
+@media (prefers-reduced-motion: reduce) {
+  .wecho,
+  .wecho-big {
+    transition: none;
+  }
+  .proof-dogear svg,
+  .proof-settle svg {
+    transition: none;
+    animation: none;
+  }
+  .odo-col {
+    transition: none;
+  }
+  .reveal {
+    transform: none;
+    filter: none;
+    animation: fade-only 200ms ease forwards;
+    animation-delay: 0ms;
+  }
+  .focus-line {
+    transition: opacity 150ms ease;
+    transform: scaleX(1);
+    opacity: 0;
+  }
+  .field:focus-within .focus-line {
+    opacity: 1;
+  }
+  .work-row:hover .ext-arrow {
+    transform: none;
+  }
+  .fnav,
+  .fnav[data-visible="true"] {
+    transform: none;
+    transition:
+      opacity 200ms ease,
+      visibility 0s linear 200ms;
+  }
+  .fnav[data-visible="true"] {
+    transition:
+      opacity 200ms ease,
+      visibility 0s;
+  }
+}
+
+/* Transparência reduzida: material fica sólido, sem blur (apple-design §14) */
+@media (prefers-reduced-transparency: reduce) {
+  .fnav {
+    background: #ffffff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .fnav::after {
+    display: none;
+  }
+}
+
+/* Mais contraste: fundo sólido com borda definida (apple-design §14) */
+@media (prefers-contrast: more) {
+  .fnav {
+    background: #ffffff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-bottom: 1px solid #111111;
+  }
+  .fnav::after {
+    display: none;
+  }
+}
