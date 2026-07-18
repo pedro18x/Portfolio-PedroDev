@@ -57,7 +57,7 @@ export const workEntries: TimelineEntry[] = [
     period: 'Aug 2025 – Mar 2026',
     title: 'Software Engineer (Internship)',
     org: 'ServiceNet Tecnologia',
-    summary: 'Backend work on two data-heavy platforms.',
+    summary: 'Full stack work on two data-heavy platforms.',
     bullets: [
       'Split my time between an ERP system and an affiliate transaction platform.',
       'Built the TypeScript and Node.js modules that handled their transaction processing.',
