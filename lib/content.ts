@@ -22,7 +22,7 @@ export const bio = {
   /** Frase curta que ancora o rail, sob o nome */
   thesis: "I like figuring out why complex systems break, and building them so they don't.",
   prefix:
-    "I'm from João Pessoa, Brazil, finishing my CS degree at UNIPÊ. I build whatever the problem needs, mostly in Kotlin and TypeScript. Right now I'm doing that at ",
+    "I'm from João Pessoa, Brazil, finishing my CS degree at UNIPÊ. I build whatever the problem needs. Right now I'm doing that at ",
   linkText: 'Maestro',
   linkUrl: 'https://maestro.dev',
   suffix: '.',
