@@ -812,6 +812,16 @@ export function ProofPull() {
       sheet.removeAttribute("inert");
       sheet.removeAttribute("aria-hidden");
       sheet.style.clipPath = "";
+      // Desmontagem pode acontecer em QUALQUER modo (Fast Refresh em dev
+      // remonta o efeito): sem zerar chapa/aba/orelha, um remount em plate
+      // view deixava a orelha branca (data-open) órfã sobre a página normal
+      delete plate.dataset.on;
+      delete flap.dataset.on;
+      delete dogear.dataset.open;
+      delete dogear.dataset.peeling;
+      dogear.setAttribute("aria-pressed", "false");
+      dogear.setAttribute("aria-label", "Pull a proof: see what lives behind this page");
+      flap.style.opacity = "";
       unlockScroll();
     };
   }, []);

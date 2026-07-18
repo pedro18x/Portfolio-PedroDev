@@ -232,12 +232,12 @@
 }
 
 @layer components {
-  /* Entrada única por carregamento — o único momento orquestrado da página */
+  /* Entrada única por carregamento — o único momento orquestrado da página.
+     Estado escondido SÓ nos keyframes (fill both): se a animação nunca
+     rodar (keyframe perdido, CSS corrompido em dev), o elemento fica
+     visível em vez de preso em opacity 0 — falha-visível, nunca sumido. */
   .reveal {
-    opacity: 0;
-    transform: translateY(8px);
-    filter: blur(2px);
-    animation: rise 400ms var(--ease-strong) forwards;
+    animation: rise 400ms var(--ease-strong) both;
     animation-delay: calc(var(--i, 0) * 45ms);
   }
 
@@ -510,6 +510,11 @@
 }
 
 @keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(2px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
@@ -571,6 +576,9 @@
 }
 
 @keyframes fade-only {
+  from {
+    opacity: 0;
+  }
   to {
     opacity: 1;
   }
@@ -628,9 +636,7 @@
     transition: none;
   }
   .reveal {
-    transform: none;
-    filter: none;
-    animation: fade-only 200ms ease forwards;
+    animation: fade-only 200ms ease both;
     animation-delay: 0ms;
   }
   .focus-line {
