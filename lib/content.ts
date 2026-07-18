@@ -20,14 +20,13 @@ export const site = {
 
 export const bio = {
   /** Frase curta que ancora o rail, sob o nome */
-  thesis:
-    'I care about diagnosing and engineering reliability into complex automated systems.',
+  thesis: "I like figuring out why complex systems break, and building them so they don't.",
   prefix:
     "I'm from João Pessoa, Brazil, finishing my CS degree at UNIPÊ while building ",
   linkText: 'Maestro',
   linkUrl: 'https://maestro.dev',
   suffix:
-    ', the end-to-end testing platform for mobile and web. Full stack, mostly Kotlin and TypeScript, from agent evaluations to developer tools.',
+    ', the end-to-end testing platform for mobile and web. I work across the stack, mostly in Kotlin and TypeScript, and lately on the tools that let AI agents test real apps.',
 };
 
 export interface TimelineEntry {
@@ -48,22 +47,22 @@ export const workEntries: TimelineEntry[] = [
     org: 'Maestro (mobile.dev)',
     orgUrl: 'https://maestro.dev',
     summary:
-      'Full stack across the MCP server, Maestro Studio, and the open-source CLI.',
+      'Full stack work across the MCP server, Maestro Studio, and the open-source CLI.',
     bullets: [
-      'Led the overhaul of the Maestro MCP server (Kotlin, TypeScript), which lets AI agents write, run, and debug UI tests.',
-      'Building agent-reliability evaluation tooling that exercises coding agents like Claude Code and Codex against the live platform.',
-      'Ship features and fixes across Maestro Studio and the open-source Maestro CLI, plus Playwright test flows and Android/iOS device automation.',
+      'Rebuilt the Maestro MCP server, the piece that lets AI agents write, run, and debug UI tests.',
+      'Building tooling that evaluates how coding agents like Claude Code and Codex hold up against the live platform.',
+      'The rest is everyday product work: Maestro Studio, the open-source CLI, Playwright test flows, Android and iOS device automation.',
     ],
   },
   {
     period: 'Aug 2025 – Mar 2026',
     title: 'Software Engineer (Internship)',
     org: 'ServiceNet Tecnologia',
-    summary: 'Backend work on two high-volume, data-intensive platforms.',
+    summary: 'Backend work on two data-heavy platforms.',
     bullets: [
-      'Worked on two data-intensive platforms: an ERP system and an affiliate/transaction platform.',
-      'Built backend modules in TypeScript and Node.js for high-volume transaction processing.',
-      'Focused on PostgreSQL performance and data integrity, with AWS S3 storage and Dockerized environments.',
+      'Split my time between an ERP system and an affiliate transaction platform.',
+      'Built the TypeScript and Node.js modules that handled their transaction processing.',
+      'Spent a lot of that time on PostgreSQL performance and keeping data intact, with S3 for storage and everything running in Docker.',
     ],
   },
   {
@@ -71,7 +70,7 @@ export const workEntries: TimelineEntry[] = [
     title: 'Back End Developer',
     org: 'Software Factory (UBTech Office, UNIPÊ)',
     description:
-      'Built applications and REST APIs with Django REST Framework in team-based projects.',
+      'First team experience: building apps and REST APIs with Django REST Framework.',
   },
 ];
 
@@ -80,7 +79,7 @@ export const educationEntries: TimelineEntry[] = [
     period: '2023 – 2026',
     title: 'B.S. Computer Science',
     org: 'UNIPÊ',
-    description: 'Final year; expected graduation Dec 2026.',
+    description: 'Final year; I graduate in December 2026.',
   },
 ];
 
@@ -90,7 +89,7 @@ export const volunteerEntries: TimelineEntry[] = [
     title: 'Computing Tutor',
     org: 'Solidarity Computing School',
     description:
-      'Designed and delivered introductory computing courses for young learners: lesson plans, hands-on activities, progress assessment.',
+      'Taught intro computing to kids: lesson plans, hands-on activities, and keeping track of how everyone was doing.',
   },
 ];
 
@@ -108,7 +107,7 @@ export const projects: ProjectItem[] = [
     name: 'Maestro CLI',
     url: 'https://github.com/mobile-dev-inc/maestro',
     description:
-      'Open-source E2E testing framework for mobile and web; I ship features and fixes on the core team.',
+      'Open-source E2E testing framework for mobile and web. I work on the core team.',
     image: '/maestro-cli.png',
     tags: ['Kotlin', 'Open Source', 'CLI'],
   },
@@ -116,7 +115,7 @@ export const projects: ProjectItem[] = [
     name: 'Maestro MCP Server',
     url: 'https://docs.maestro.dev/getting-started/maestro-mcp',
     description:
-      'Lets AI coding agents write, run, and debug UI tests; I led its overhaul.',
+      'Lets AI coding agents write, run, and debug UI tests. I led the rebuild.',
     image: '/maestro-mcp.png',
     tags: ['Kotlin', 'TypeScript', 'MCP'],
   },
@@ -124,7 +123,7 @@ export const projects: ProjectItem[] = [
     name: 'Maestro Studio',
     url: 'https://github.com/mobile-dev-inc/maestro-studio',
     description:
-      'Cross-platform desktop app for building and running tests visually.',
+      'Desktop app for building and running Maestro tests visually.',
     image: '/maestro-studio.png',
     tags: ['Electron', 'React', 'TypeScript'],
   },
