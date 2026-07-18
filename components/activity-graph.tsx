@@ -13,9 +13,10 @@ import { Section } from "./section";
  * A PLACA DE IMPRESSÃO (plano B do torneio de componentes): o ano do GitHub
  * como uma chapa de meio-tom. Cada dia é um ponto de tinta circular cujo
  * RAIO codifica a contagem (dado como geometria, não opacidade). Na primeira
- * rolagem até aqui (uma vez por sessão), uma cabeça de impressão varre a
- * chapa e seis meses de trabalho se materializam coluna a coluna, com o
- * odômetro do total pousando em sincronia. Depois, a tinta incha sob o
+ * rolagem até aqui (uma vez por sessão), a chapa é ESTAMPADA: cada ponto
+ * pipoca no seu atraso diagonal (coluna + linha) com um leve overshoot de
+ * mola, como uma matriz batendo tinta, e o odômetro do total pousa em
+ * sincronia com o último ponto. Depois, a tinta incha sob o
  * cursor (modelo de proximidade do @react-bits/DotGrid, reimplementado nos
  * tokens do site, sem gsap) e o clique no monograma "pe" ondula a chapa
  * também: duas placas, uma tinta.
@@ -24,7 +25,11 @@ import { Section } from "./section";
  * intacto. Acessibilidade: canvas oculto de leitores; resumo textual ao lado.
  */
 const WEEKS = 26;
-const SWEEP_MS = 1100;
+// Estampa em cascata: atraso diagonal por coluna/linha + pop com overshoot
+const STAMP_COL_MS = 22;
+const STAMP_ROW_MS = 9;
+const STAMP_DOT_MS = 240;
+const STAMP_TOTAL_MS = (WEEKS - 1) * STAMP_COL_MS + 6 * STAMP_ROW_MS + STAMP_DOT_MS;
 const SWELL_RADIUS = 70;
 
 /** sessionStorage pode LANÇAR com cookies bloqueados; falha = não impresso. */
@@ -102,7 +107,7 @@ export function ActivityGraph({
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Odômetro do total: zera antes da varredura, rola 1100ms em sincronia
+  // Odômetro do total: zera antes da estampa, rola em sincronia com ela
   const total = data?.total ?? "0";
   const [display, setDisplay] = useState(total);
   const [rollMs, setRollMs] = useState(0);
@@ -141,9 +146,9 @@ export function ActivityGraph({
   const recent = windowDays.slice(lead);
 
   const stateRef = useRef({
-    progress: 1, // 0..1 durante a varredura
-    sweeping: false,
-    sweepStart: 0,
+    hidden: false, // chapa em branco até a estampa começar
+    stamping: false,
+    stampStart: 0,
     pointer: { x: -1e4, y: -1e4 },
     swell: new Map<number, number>(),
     ripple: null as { x: number; y: number; t: number } | null,
@@ -188,21 +193,26 @@ export function ActivityGraph({
 
     function draw(now: number) {
       ctx!.clearRect(0, 0, W, H);
-      const limit = st.progress * (W + 50);
+      if (st.hidden) return;
       for (let i = 0; i < recent.length; i++) {
         const { x, y } = dotAt(i);
-        if (x > limit) continue;
         const c = counts[i];
         const frac = Math.min(c, maxCount) / maxCount;
         // raio codifica contagem; dias vazios são um picote fixo
         let r = c === 0 ? pitch * 0.06 : pitch * (0.13 + frac * 0.27);
         let a = c === 0 ? 0.14 : 0.35 + frac * 0.65;
 
-        // pop de chegada logo atrás da cabeça de impressão
-        const sincePass = Math.min(1, (limit - x) / 60);
-        if (st.sweeping && sincePass < 1) {
-          r *= 1 + 0.18 * Math.sin(Math.PI * sincePass);
-          a *= 0.4 + 0.6 * sincePass;
+        // estampa: cada ponto pipoca no próprio atraso diagonal, com
+        // easeOutBack (~8% de overshoot) — matriz batendo tinta na chapa
+        if (st.stamping) {
+          const delay = Math.floor(i / 7) * STAMP_COL_MS + (i % 7) * STAMP_ROW_MS;
+          const p = (now - st.stampStart - delay) / STAMP_DOT_MS;
+          if (p <= 0) continue;
+          if (p < 1) {
+            const q = p - 1;
+            r *= 1 + 2.7 * q * q * q + 1.7 * q * q;
+            a *= Math.min(1, p * 1.8);
+          }
         }
 
         // inchaço sob o ponteiro, com atraso de mola
@@ -229,23 +239,14 @@ export function ActivityGraph({
         ctx!.arc(x, y, Math.max(0.4, r), 0, 7);
         ctx!.fill();
       }
-      if (st.sweeping && st.progress < 1) {
-        ctx!.strokeStyle = "#111111";
-        ctx!.lineWidth = 1;
-        ctx!.beginPath();
-        ctx!.moveTo(limit + 0.5, 3);
-        ctx!.lineTo(limit + 0.5, H - 3);
-        ctx!.stroke();
-      }
     }
 
     function frame(now: number) {
       st.raf = 0;
       let needMore = false;
 
-      if (st.sweeping) {
-        st.progress = Math.min(1, (now - st.sweepStart) / SWEEP_MS);
-        if (st.progress >= 1) st.sweeping = false;
+      if (st.stamping) {
+        if (now - st.stampStart >= STAMP_TOTAL_MS) st.stamping = false;
         else needMore = true;
       }
 
@@ -281,15 +282,15 @@ export function ActivityGraph({
     fit();
     draw(performance.now());
 
-    // varredura: uma vez por sessão, na primeira entrada em vista
+    // estampa: uma vez por sessão, na primeira entrada em vista
     let io: IntersectionObserver | null = null;
     const already = reduced || readPrinted();
     if (already) {
-      // Reexecuções do efeito (setData ao vivo no meio da varredura) caem
-      // aqui: zerar o estado persistente da varredura, senão a chapa
-      // congela meio impressa com a régua parada e sem rAF agendado.
-      st.progress = 1;
-      st.sweeping = false;
+      // Reexecuções do efeito (setData ao vivo no meio da estampa) caem
+      // aqui: zerar o estado persistente, senão a chapa congela meio
+      // estampada sem rAF agendado.
+      st.hidden = false;
+      st.stamping = false;
       // Só reancorar o odômetro na primeira passagem; numa reexecução o
       // handler do fetch já armou o rolo de 480ms do valor exibido.
       if (!printedRef.current) {
@@ -299,7 +300,7 @@ export function ActivityGraph({
       printedRef.current = true;
       draw(performance.now());
     } else {
-      st.progress = 0;
+      st.hidden = true;
       setRollMs(0);
       setDisplay(total.replace(/\d/g, "0"));
       draw(performance.now());
@@ -309,9 +310,10 @@ export function ActivityGraph({
           io?.disconnect();
           markPrinted();
           printedRef.current = true;
-          st.sweeping = true;
-          st.sweepStart = performance.now();
-          setRollMs(SWEEP_MS);
+          st.hidden = false;
+          st.stamping = true;
+          st.stampStart = performance.now();
+          setRollMs(STAMP_TOTAL_MS);
           setDisplay(total);
           kick();
         },
@@ -411,10 +413,12 @@ export function ActivityGraph({
         aria-label="Open my GitHub profile"
         className="plain work-row block"
       >
-        <p className="font-mono text-[2.375rem] font-medium leading-none text-foreground [font-variant-numeric:tabular-nums]">
-          <RollingDigits value={display} durationMs={rollMs} />
-        </p>
-        <p className="mt-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
+        {/* Número e legenda numa única linha de base (layout A) */}
+        <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="font-mono text-[2.375rem] font-medium leading-none text-foreground [font-variant-numeric:tabular-nums]">
+            <RollingDigits value={display} durationMs={rollMs} />
+          </span>
+          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
           <HoverCard>
             <HoverCardTrigger
               render={
@@ -459,6 +463,7 @@ export function ActivityGraph({
               </SpotlightCard>
             </HoverCardContent>
           </HoverCard>
+          </span>
         </p>
 
         <div
@@ -483,34 +488,30 @@ export function ActivityGraph({
           )}
         </div>
 
-        <p className="mt-3 flex items-baseline justify-between font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
-          <span>radius encodes count</span>
+        {/* Uma única linha de meta fecha a seção (layout A): estatísticas
+            à esquerda, janela temporal à direita — sem bloco extra */}
+        <p className="mt-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
+          {hasCounts ? (
+            <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <span>streak</span>
+              <StatValue value={streak} suffix=" days" />
+              <span aria-hidden="true" className="text-softline">
+                ·
+              </span>
+              <span>busiest</span>
+              <StatValue value={best} />
+              <span aria-hidden="true" className="text-softline">
+                ·
+              </span>
+              <span>weeks</span>
+              <StatValue value={activeWeeks} suffix={`/${WEEKS}`} />
+            </span>
+          ) : (
+            <span>radius encodes count</span>
+          )}
           <span>last 6 months</span>
         </p>
       </a>
-
-      {hasCounts && (
-        <div className="mt-5 flex gap-8 border-t border-border pt-4">
-          <div>
-            <p className="font-mono text-[0.5625rem] uppercase tracking-[0.09em] text-faint">
-              Longest streak
-            </p>
-            <StatValue value={streak} suffix=" days" />
-          </div>
-          <div>
-            <p className="font-mono text-[0.5625rem] uppercase tracking-[0.09em] text-faint">
-              Busiest day
-            </p>
-            <StatValue value={best} />
-          </div>
-          <div>
-            <p className="font-mono text-[0.5625rem] uppercase tracking-[0.09em] text-faint">
-              Active weeks
-            </p>
-            <StatValue value={activeWeeks} suffix={` of ${WEEKS}`} />
-          </div>
-        </div>
-      )}
     </Section>
   );
 }
