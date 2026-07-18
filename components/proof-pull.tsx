@@ -140,6 +140,10 @@ export function ProofPull() {
       fh = window.innerHeight;
       flap.width = Math.round(fw * dpr);
       flap.height = Math.round(fh * dpr);
+      // inset não estica elemento substituído: sem tamanho CSS explícito o
+      // canvas renderiza no tamanho intrínseco (viewport × dpr) em telas retina
+      flap.style.width = `${fw}px`;
+      flap.style.height = `${fh}px`;
       fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
@@ -270,6 +274,10 @@ export function ProofPull() {
       const dpr = Math.min(window.devicePixelRatio || 1, CONFIG.DPR_MAX);
       fieldCanvas.width = Math.round(window.innerWidth * dpr);
       fieldCanvas.height = Math.round(window.innerHeight * dpr);
+      // mesmo motivo do sizeFlap: fixa o tamanho CSS = px do viewport para o
+      // desenho e o splat (clientX/CW) falarem o mesmo sistema de coordenadas
+      fieldCanvas.style.width = `${window.innerWidth}px`;
+      fieldCanvas.style.height = `${window.innerHeight}px`;
       gctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       gw = Math.ceil(window.innerWidth / FIELD.CW);
       gh = Math.ceil(window.innerHeight / FIELD.CH);
