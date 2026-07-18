@@ -66,7 +66,7 @@ export const workEntries: TimelineEntry[] = [
   },
   {
     period: 'Feb – Jun 2023',
-    title: 'Back End Developer',
+    title: 'Software Engineer',
     org: 'Software Factory (UBTech Office, UNIPÊ)',
     description:
       'First team experience: building apps and REST APIs with Django REST Framework.',
