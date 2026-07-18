@@ -22,11 +22,10 @@ export const bio = {
   /** Frase curta que ancora o rail, sob o nome */
   thesis: "I like figuring out why complex systems break, and building them so they don't.",
   prefix:
-    "I'm from João Pessoa, Brazil, finishing my CS degree at UNIPÊ while building ",
+    "I'm from João Pessoa, Brazil, finishing my CS degree at UNIPÊ. I build full stack, mostly in Kotlin and TypeScript, and the work I enjoy most is developer tools: software that makes other people faster. Right now I'm doing that at ",
   linkText: 'Maestro',
   linkUrl: 'https://maestro.dev',
-  suffix:
-    ', the end-to-end testing platform for mobile and web. I work across the stack, mostly in Kotlin and TypeScript, and lately on the tools that let AI agents test real apps.',
+  suffix: '.',
 };
 
 export interface TimelineEntry {
