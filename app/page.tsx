@@ -122,7 +122,7 @@ export default async function Home() {
             </Reveal>
 
             <Reveal>
-              <Section label="Projects" id="projects">
+              <Section label="Current Projects" id="projects">
                 <ul className="flex flex-col gap-3.5">
                   {projects.map((item) => (
                     <ProjectLink key={item.name} item={item} />
