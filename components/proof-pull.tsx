@@ -399,8 +399,11 @@ export function ProofPull() {
     let sbComp = 0;
     const lockScroll = () => {
       const sw = window.innerWidth - document.documentElement.clientWidth;
+      // Só no <html>: com o html em overflow hidden o valor do body deixa de
+      // propagar ao viewport e o body vira ELE MESMO um scroll container —
+      // o rail sticky passa a grudar nele (scrollTop eternamente 0) e salta
+      // para o topo do documento, sumindo sempre que a página está rolada.
       document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
       if (sw > 0) {
         sbComp = sw;
         document.body.style.paddingRight = `${sw}px`;
@@ -411,7 +414,6 @@ export function ProofPull() {
     };
     const unlockScroll = () => {
       document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
       if (sbComp > 0) {
         document.body.style.paddingRight = "";
         document.documentElement.style.removeProperty("--proof-sbc");
