@@ -43,6 +43,12 @@ const CONFIG = {
   OPEN_A: 3200, // chicote de abertura após o commit
   OPEN_V_MAX: 3200, // teto do chicote quando o peteleco é forte
   MIN_D: 26, // abaixo disto no soltar, assenta direto na orelha
+  // Setor angular da dobra (rad, medido da horizontal). O vinco nunca
+  // deita paralelo a uma borda: é o que garante o triângulo de canto
+  // sempre — sem isto, puxão vertical fazia a linha de dobra atravessar
+  // o documento inteiro e um slab de verso cobria a viewport.
+  FOLD_MIN: 0.349, // 20°
+  FOLD_MAX: 1.222, // 70°
   // Dispensa por momento (barra Emil, gestos): a linha de distância não é
   // a única porta — velocidade radial no soltar também decide.
   FLICK_OPEN: 0.7, // px/ms para fora: peteleco abre mesmo aquém da linha
@@ -393,7 +399,6 @@ export function ProofPull() {
     let diag = 0;
     let rafId = 0;
     let lastT = 0;
-    let openD0 = 0; // d no instante do commit: base do alargamento no chicote
 
     // Travar o scroll remove a barra clássica e reflui a página; compensar
     // com padding mantém a geometria idêntica (overlay scrollbar: sw = 0).
@@ -447,24 +452,13 @@ export function ProofPull() {
       let lifted = clipHalfplane(docPoly, M, n, true, true);
 
       if (PATH_CLIP) {
-        // Dobra LOCAL: só um retalho de canto levanta, como papel de
-        // verdade. Sem esta caixa, a linha de dobra estendida pelo
-        // documento inteiro faz um arrasto de 80px cobrir metade da
-        // viewport com verso de papel.
-        // ANISOTRÓPICA: cada lado cresce com a componente do puxão naquele
-        // eixo. Puxão diagonal = caixa ~quadrada (dobra de canto clássica);
-        // puxão rente à borda = tira estreita, como descolar uma fita — com
-        // a caixa quadrada, arrastar até o topo deitava a linha de dobra na
-        // horizontal e um slab de verso cobria a viewport inteira.
-        const adx = Math.abs(dir.x) * d;
-        const ady = Math.abs(dir.y) * d;
-        // no chicote de abertura a caixa alarga com o excedente: a saída
-        // consome a folha em vez de congelar na tira do arrasto
-        const g = mode === "opening" ? (d - openD0) * 8 : 0;
-        const Lx = 4 * adx + 0.5 * ady + 80 + g;
-        const Ly = 4 * ady + 0.5 * adx + 80 + g;
-        lifted = clipHalfplane(lifted, { x: C.x - Lx, y: 0 }, { x: 1, y: 0 }, true);
-        lifted = clipHalfplane(lifted, { x: 0, y: C.y - Ly }, { x: 0, y: 1 }, true);
+        // Com o setor angular, a dobra é SEMPRE um triângulo de canto — a
+        // geometria se limita sozinha, sem caixa artificial (as arestas
+        // retas da caixa liam-se como papel CORTADO, não dobrado). Só se
+        // recorta ao viewport: reflexos de papel além da borda inferior
+        // não podem vazar de volta para a tela em ângulos rasos.
+        lifted = clipHalfplane(lifted, { x: 0, y: 0 }, { x: 0, y: 1 }, true);
+        lifted = clipHalfplane(lifted, { x: 0, y: C.y }, { x: 0, y: -1 }, true);
         if (keep.length < 3) {
           sheet.style.clipPath = "polygon(0px 0px, 0px 0px, 0px 0px)";
         } else if (lifted.length >= 3) {
@@ -509,11 +503,15 @@ export function ProofPull() {
       }
       lastMoveT = now;
       lastRaw = raw;
-      // dir SEMPRE normalizado pela magnitude REAL do vetor: dividir pela
-      // efetiva (com a folga descontada) gerava |dir| >> 1 no início do
-      // arrasto e explodia toda a geometria da dobra (reflect() assume n
-      // unitário) — com movimentos reais de 1-2px isso era o arrasto inteiro
-      if (rawAbs > 4) dir = { x: vx / rawAbs, y: vy / rawAbs };
+      // dir SEMPRE unitário (reflect() assume n unitário) e SEMPRE dentro
+      // do setor da dobra: o ponteiro dita a distância fielmente, mas o
+      // ângulo satura em FOLD_MIN/FOLD_MAX — o canto resiste, como papel
+      // colado de verdade, e a dobra é um triângulo de canto em qualquer
+      // direção de arrasto
+      if (rawAbs > 4) {
+        const a = Math.min(Math.max(Math.atan2(-vy, -vx), CONFIG.FOLD_MIN), CONFIG.FOLD_MAX);
+        dir = { x: -Math.cos(a), y: -Math.sin(a) };
+      }
       const D = CONFIG.BAND_START * diag;
       d = raw > D ? D + (raw - D) * CONFIG.BAND_FACTOR : raw;
       // a orelha só some quando a dobra existe de fato
@@ -617,7 +615,6 @@ export function ProofPull() {
     // puxou além da linha de commit: a folha chicoteia para fora
     const openFromPeel = () => {
       mode = "opening";
-      openD0 = d;
       lastT = performance.now();
       cancelAnimationFrame(rafId);
       flap.style.opacity = "0";
