@@ -393,6 +393,7 @@ export function ProofPull() {
     let diag = 0;
     let rafId = 0;
     let lastT = 0;
+    let openD0 = 0; // d no instante do commit: base do alargamento no chicote
 
     // Travar o scroll remove a barra clássica e reflui a página; compensar
     // com padding mantém a geometria idêntica (overlay scrollbar: sw = 0).
@@ -449,11 +450,21 @@ export function ProofPull() {
         // Dobra LOCAL: só um retalho de canto levanta, como papel de
         // verdade. Sem esta caixa, a linha de dobra estendida pelo
         // documento inteiro faz um arrasto de 80px cobrir metade da
-        // viewport com verso de papel. A caixa cresce com d: em pulls
-        // fundos vira a dobra de folha inteira do espetáculo.
-        const L = 4 * d + 80;
-        lifted = clipHalfplane(lifted, { x: C.x - L, y: 0 }, { x: 1, y: 0 }, true);
-        lifted = clipHalfplane(lifted, { x: 0, y: C.y - L }, { x: 0, y: 1 }, true);
+        // viewport com verso de papel.
+        // ANISOTRÓPICA: cada lado cresce com a componente do puxão naquele
+        // eixo. Puxão diagonal = caixa ~quadrada (dobra de canto clássica);
+        // puxão rente à borda = tira estreita, como descolar uma fita — com
+        // a caixa quadrada, arrastar até o topo deitava a linha de dobra na
+        // horizontal e um slab de verso cobria a viewport inteira.
+        const adx = Math.abs(dir.x) * d;
+        const ady = Math.abs(dir.y) * d;
+        // no chicote de abertura a caixa alarga com o excedente: a saída
+        // consome a folha em vez de congelar na tira do arrasto
+        const g = mode === "opening" ? (d - openD0) * 8 : 0;
+        const Lx = 4 * adx + 0.5 * ady + 80 + g;
+        const Ly = 4 * ady + 0.5 * adx + 80 + g;
+        lifted = clipHalfplane(lifted, { x: C.x - Lx, y: 0 }, { x: 1, y: 0 }, true);
+        lifted = clipHalfplane(lifted, { x: 0, y: C.y - Ly }, { x: 0, y: 1 }, true);
         if (keep.length < 3) {
           sheet.style.clipPath = "polygon(0px 0px, 0px 0px, 0px 0px)";
         } else if (lifted.length >= 3) {
@@ -606,6 +617,7 @@ export function ProofPull() {
     // puxou além da linha de commit: a folha chicoteia para fora
     const openFromPeel = () => {
       mode = "opening";
+      openD0 = d;
       lastT = performance.now();
       cancelAnimationFrame(rafId);
       flap.style.opacity = "0";
@@ -675,6 +687,12 @@ export function ProofPull() {
     };
     const onPointerMove = (e: PointerEvent) => {
       if (mode !== "drag" || e.pointerId !== pid) return;
+      // Soltura engolida (menu nativo, SO roubou o pointerup): o primeiro
+      // move com botões zerados resolve o arrasto — a folha nunca fica presa
+      if (e.buttons === 0) {
+        onPointerUp(e);
+        return;
+      }
       moveDrag(e);
     };
     const onPointerUp = (e: PointerEvent) => {
@@ -697,6 +715,20 @@ export function ProofPull() {
       springHome();
     };
     const onContext = (e: Event) => e.preventDefault();
+
+    // Rede de segurança da soltura: só o modo "drag" espera por um evento
+    // para sair — se o pointerup for engolido (menu de contexto nativo,
+    // captura roubada pelo SO), a folha ficava presa dobrada com o scroll
+    // travado. Qualquer sinal de soltura resolve pelo caminho normal; o
+    // guarda de modo/pid em onPointerUp torna as rotas idempotentes.
+    const onLostCapture = (e: PointerEvent) => onPointerUp(e);
+    const onWindowUp = (e: PointerEvent) => onPointerUp(e);
+    // Dois dedos no trackpad no meio do arrasto: o contextmenu nasce no
+    // elemento sob o ponteiro (não é retargetado pela captura) — sem isto o
+    // menu nativo abre e engole a soltura
+    const onWindowContext = (e: Event) => {
+      if (mode === "drag") e.preventDefault();
+    };
 
     // teclado (click com detail 0) e ativação por ponteiro sob RM
     const onClick = (e: MouseEvent) => {
@@ -784,9 +816,13 @@ export function ProofPull() {
     dogear.addEventListener("pointerup", onPointerUp);
     dogear.addEventListener("pointercancel", onPointerUp);
     dogear.addEventListener("contextmenu", onContext);
+    dogear.addEventListener("lostpointercapture", onLostCapture);
     dogear.addEventListener("click", onClick);
     window.addEventListener("pointermove", onWindowMove);
     window.addEventListener("pointerdown", onWindowDown);
+    window.addEventListener("pointerup", onWindowUp, true);
+    window.addEventListener("pointercancel", onWindowUp, true);
+    window.addEventListener("contextmenu", onWindowContext, true);
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("resize", onResize);
     window.addEventListener("blur", onWindowBlur);
@@ -799,9 +835,13 @@ export function ProofPull() {
       dogear.removeEventListener("pointerup", onPointerUp);
       dogear.removeEventListener("pointercancel", onPointerUp);
       dogear.removeEventListener("contextmenu", onContext);
+      dogear.removeEventListener("lostpointercapture", onLostCapture);
       dogear.removeEventListener("click", onClick);
       window.removeEventListener("pointermove", onWindowMove);
       window.removeEventListener("pointerdown", onWindowDown);
+      window.removeEventListener("pointerup", onWindowUp, true);
+      window.removeEventListener("pointercancel", onWindowUp, true);
+      window.removeEventListener("contextmenu", onWindowContext, true);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("blur", onWindowBlur);
