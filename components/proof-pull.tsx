@@ -399,6 +399,7 @@ export function ProofPull() {
     let diag = 0;
     let rafId = 0;
     let lastT = 0;
+    let openD0 = 0; // d no instante do commit: base do alargamento no chicote
 
     // Travar o scroll remove a barra clássica e reflui a página; compensar
     // com padding mantém a geometria idêntica (overlay scrollbar: sw = 0).
@@ -615,6 +616,7 @@ export function ProofPull() {
     // puxou além da linha de commit: a folha chicoteia para fora
     const openFromPeel = () => {
       mode = "opening";
+      openD0 = d;
       lastT = performance.now();
       cancelAnimationFrame(rafId);
       flap.style.opacity = "0";
