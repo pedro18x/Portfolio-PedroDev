@@ -39,7 +39,7 @@ export function ExperienceList({ entries }: { entries: TimelineEntry[] }) {
             value={entry.org}
             className="not-last:border-0"
           >
-            <div className="grid gap-x-6 sm:grid-cols-[10rem_1fr]">
+            <div className="grid gap-x-6 @lg:grid-cols-[10rem_1fr]">
               <span className="pt-0.5 font-mono text-[0.8125rem] text-faint [font-variant-numeric:tabular-nums]">
                 {entry.period}
               </span>
@@ -72,7 +72,7 @@ export function ExperienceList({ entries }: { entries: TimelineEntry[] }) {
         ) : (
           <div
             key={entry.org}
-            className="grid gap-x-6 gap-y-1 sm:grid-cols-[10rem_1fr]"
+            className="grid gap-x-6 gap-y-1 @lg:grid-cols-[10rem_1fr]"
           >
             <span className="pt-0.5 font-mono text-[0.8125rem] text-faint [font-variant-numeric:tabular-nums]">
               {entry.period}
