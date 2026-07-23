@@ -492,19 +492,28 @@ export function ActivityGraph({
             à esquerda, janela temporal à direita — sem bloco extra */}
         <p className="mt-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
           {hasCounts ? (
+            /* Cada par rótulo+valor é atômico (inline-flex) e o separador
+               viaja com o par anterior: em telas estreitas a quebra cai
+               ENTRE estatísticas, nunca entre "weeks" e "20/26" */
             <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <span>streak</span>
-              <StatValue value={streak} suffix=" days" />
-              <span aria-hidden="true" className="text-softline">
-                ·
+              <span className="inline-flex items-baseline gap-x-2">
+                <span>streak</span>
+                <StatValue value={streak} suffix={streak === 1 ? " day" : " days"} />
+                <span aria-hidden="true" className="text-softline">
+                  ·
+                </span>
               </span>
-              <span>busiest</span>
-              <StatValue value={best} />
-              <span aria-hidden="true" className="text-softline">
-                ·
+              <span className="inline-flex items-baseline gap-x-2">
+                <span>busiest</span>
+                <StatValue value={best} />
+                <span aria-hidden="true" className="text-softline">
+                  ·
+                </span>
               </span>
-              <span>weeks</span>
-              <StatValue value={activeWeeks} suffix={`/${WEEKS}`} />
+              <span className="inline-flex items-baseline gap-x-2">
+                <span>weeks</span>
+                <StatValue value={activeWeeks} suffix={`/${WEEKS}`} />
+              </span>
             </span>
           ) : (
             <span>radius encodes count</span>

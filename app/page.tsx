@@ -24,7 +24,7 @@ export const revalidate = 3600; // snapshot horário; o tempo real vem de /api/c
 /** Linha da linha do tempo: período à esquerda (mono), conteúdo à direita. */
 function TimelineRow({ entry }: { entry: TimelineEntry }) {
   return (
-    <div className="grid gap-x-6 gap-y-1 sm:grid-cols-[10rem_1fr]">
+    <div className="grid gap-x-6 gap-y-1 @lg:grid-cols-[10rem_1fr]">
       <span className="pt-0.5 font-mono text-[0.8125rem] text-faint [font-variant-numeric:tabular-nums]">
         {entry.period}
       </span>
@@ -75,7 +75,10 @@ export default async function Home() {
             />
           </div>
 
-          <div className="min-w-0 max-w-[40rem] pb-24 pt-10 md:pt-20">
+          {/* @container: as grades internas (datas, formulário) respondem à
+              largura REAL da coluna — em ~768-950px o rail deixa só ~350px e
+              a coluna de datas de 10rem esmagava os títulos em torres */}
+          <div className="@container min-w-0 max-w-[40rem] pb-24 pt-10 md:pt-20">
             <Reveal>
               <section aria-label="About" id="about" className="scroll-mt-16">
                 <p>

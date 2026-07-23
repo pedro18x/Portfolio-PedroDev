@@ -252,8 +252,9 @@ export function ContactForm() {
   return (
     <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
       <FieldGroup className="gap-3">
-        {/* Nome e email lado a lado em telas maiores: forma mais composta */}
-        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+        {/* Nome e email lado a lado quando a COLUNA comporta (variante de
+            contêiner): com o rail ao lado, viewport largo ≠ coluna larga */}
+        <div className="grid gap-3 @lg:grid-cols-2 @lg:gap-4">
           <ContactField
             id="contact-name"
             name="name"
