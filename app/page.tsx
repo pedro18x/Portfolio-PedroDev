@@ -145,6 +145,22 @@ export default async function Home() {
             </Reveal>
           </div>
         </div>
+
+        {/* No desktop o rail dobra como rodapé (contato + © ancorados na base
+            da coluna); no mobile ele é só cabeçalho, então esses metadados
+            reaparecem aqui, no fim natural da página */}
+        <footer className="mx-auto max-w-[66rem] px-6 pb-16 md:hidden">
+          <div className="border-t border-border pt-6 font-mono text-[0.75rem] leading-relaxed text-faint">
+            <p>
+              {site.location}
+              <br />
+              <a href={`mailto:${site.email}`} className="plain hover:text-foreground">
+                {site.email}
+              </a>
+            </p>
+            <p className="mt-4 [font-variant-numeric:tabular-nums]">© 2026</p>
+          </div>
+        </footer>
       </main>
 
       <ProofPull />

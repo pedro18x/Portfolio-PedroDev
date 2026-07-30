@@ -63,7 +63,10 @@ export function Rail({ name, role, thesis, location, email, github, linkedin }: 
 
       <Monogram />
 
-      <div className="mt-8 flex flex-col gap-4 md:mt-0">
+      {/* No mobile o rail é cabeçalho, não rodapé: hora/foco e sociais viram
+          uma faixa única e compacta; contato e © descem para o rodapé da
+          página (page.tsx). No desktop nada muda. */}
+      <div className="mt-8 flex items-end justify-between gap-6 md:mt-0 md:flex-col md:items-stretch md:justify-start md:gap-4">
         <div className="flex max-w-[15rem] flex-col gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint [font-variant-numeric:tabular-nums]">
           <p className="flex items-baseline justify-between gap-4">
             <span>Local time</span>
@@ -75,14 +78,14 @@ export function Rail({ name, role, thesis, location, email, github, linkedin }: 
           </p>
         </div>
         <SocialRow github={github} linkedin={linkedin} email={email} />
-        <p className="font-mono text-[0.75rem] leading-relaxed text-faint">
+        <p className="hidden font-mono text-[0.75rem] leading-relaxed text-faint md:block">
           {location}
           <br />
           <a href={`mailto:${email}`} className="plain hover:text-foreground">
             {email}
           </a>
         </p>
-        <p className="font-mono text-[0.75rem] text-faint [font-variant-numeric:tabular-nums]">
+        <p className="hidden font-mono text-[0.75rem] text-faint [font-variant-numeric:tabular-nums] md:block">
           © 2026
         </p>
       </div>

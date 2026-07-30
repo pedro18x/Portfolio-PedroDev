@@ -50,7 +50,7 @@ export const workEntries: TimelineEntry[] = [
     bullets: [
       'Rebuilt the Maestro MCP server, the piece that lets AI agents write, run, and debug UI tests.',
       'Building tooling that evaluates how coding agents like Claude Code and Codex hold up against the live platform.',
-      'The rest is everyday product work: Maestro Studio, the open-source CLI, Playwright test flows, Android and iOS device automation.',
+      'The rest is everyday product work: Maestro Studio, the open-source CLI, GCP infrastructure, Android and iOS device automation.',
     ],
   },
   {
